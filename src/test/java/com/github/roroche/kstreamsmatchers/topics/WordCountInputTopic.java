@@ -21,7 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.github.roroche.kstreamsmatchers.topics;
+
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.TestInputTopic;
+import org.apache.kafka.streams.TopologyTestDriver;
+import org.cactoos.Scalar;
+
 /**
- * This package contains the tests for the main classes of the library.
+ * A {@link Scalar} that creates a {@link TestInputTopic} for the word count topology.
+ *
+ * @since 0.0.1
  */
-package com.github.roroche.javalib;
+public final class WordCountInputTopic implements Scalar<TestInputTopic<String, String>> {
+    /**
+     * The topology test driver used to create the input topic.
+     */
+    private final TopologyTestDriver driver;
+
+    /**
+     * Primary ctor.
+     *
+     * @param driver The topology test driver used to create the input topic
+     */
+    public WordCountInputTopic(final TopologyTestDriver driver) {
+        this.driver = driver;
+    }
+
+    @Override
+    public TestInputTopic<String, String> value() {
+        return this.driver.createInputTopic(
+            "input-topic",
+            Serdes.String().serializer(),
+            Serdes.String().serializer()
+        );
+    }
+}

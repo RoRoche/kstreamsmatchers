@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
 /**
- * Package containing the configuration classes for the tests.
+ * This package contains the tests for the main classes of the library.
  */
-package com.github.roroche.kstreamsmatchers.configuration;
+package com.github.roroche.kstreamsmatchers;

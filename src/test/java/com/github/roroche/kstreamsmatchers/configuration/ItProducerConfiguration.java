@@ -21,24 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.roroche.javalib;
+package com.github.roroche.kstreamsmatchers.configuration;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
+import com.github.roroche.eoconfig.ConfigurationEnvelope;
+import com.github.roroche.eoconfig.MapConfiguration;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.cactoos.map.MapEntry;
 
 /**
- * Test for {@link Sum}.
+ * A configuration for Kafka producers in integration tests.
+ *
  * @since 0.0.1
  */
-@SuppressWarnings("allpublic")
-final class SumTest {
-    @Test
-    void isOk() {
-        MatcherAssert.assertThat(
-            "result is correct",
-            new Sum(1, 2).result(),
-            new IsEqual(3)
+public final class ItProducerConfiguration extends ConfigurationEnvelope {
+    /**
+     * Constructs an ItProducerConfiguration with the given Kafka container.
+     */
+    public ItProducerConfiguration() {
+        super(
+            new MapConfiguration(
+                new MapEntry<>(
+                    ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                    StringSerializer.class.getName()
+                ),
+                new MapEntry<>(
+                    ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                    StringSerializer.class.getName()
+                )
+            )
         );
     }
 }
