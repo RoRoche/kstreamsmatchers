@@ -52,6 +52,7 @@ Add the dependency to your project:
     <groupId>com.github.roroche</groupId>
     <artifactId>kstreamsmatchers</artifactId>
     <version>${latest.version}</version>
+    <scope>test</scope>
 </dependency>
 ```
 
