@@ -62,8 +62,8 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  * }</pre>
  *
  * @since 0.0.1
- * @checkstyle ProtectedMethodInFinalClassCheck (192 lines)
  */
+// @checkstyle ProtectedMethodInFinalClassCheck (192 lines)
 @SuppressWarnings({"allfinal", "allpublic"})
 public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consumer<K, V>> {
 

@@ -60,8 +60,8 @@ import org.hamcrest.core.IsEqual;
  * }</pre>
  *
  * @since 0.0.1
- * @checkstyle ProtectedMethodInFinalClassCheck (132 lines)
  */
+// @checkstyle ProtectedMethodInFinalClassCheck (132 lines)
 @SuppressWarnings("allpublic")
 public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
     /**

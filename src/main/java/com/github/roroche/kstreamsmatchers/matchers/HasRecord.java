@@ -52,8 +52,8 @@ import org.hamcrest.TypeSafeMatcher;
  * }</pre>
  *
  * @since 0.0.1
- * @checkstyle ProtectedMethodInFinalClassCheck (185 lines)
  */
+// @checkstyle ProtectedMethodInFinalClassCheck (185 lines)
 @SuppressWarnings("allpublic")
 public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
 

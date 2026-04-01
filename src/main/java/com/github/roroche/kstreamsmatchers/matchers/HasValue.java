@@ -56,8 +56,8 @@ import org.hamcrest.core.IsEqual;
  * }</pre>
  *
  * @since 0.0.1
- * @checkstyle ProtectedMethodInFinalClassCheck (97 lines)
  */
+// @checkstyle ProtectedMethodInFinalClassCheck (97 lines)
 @SuppressWarnings("allpublic")
 public final class HasValue<V> extends TypeSafeMatcher<WithValue<V>> {
     /**

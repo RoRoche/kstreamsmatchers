@@ -56,8 +56,8 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  * }</pre>
  *
  * @since 0.0.1
- * @checkstyle ProtectedMethodInFinalClassCheck (130 lines)
  */
+// @checkstyle ProtectedMethodInFinalClassCheck (130 lines)
 @SuppressWarnings("allpublic")
 public final class OutputTopicContains<K, V>
     extends TypeSafeDiagnosingMatcher<TestOutputTopic<K, V>> {
