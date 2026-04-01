@@ -52,7 +52,9 @@ import org.hamcrest.TypeSafeMatcher;
  * }</pre>
  *
  * @since 0.0.1
+ * @checkstyle ProtectedMethodInFinalClassCheck (185 lines)
  */
+@SuppressWarnings("allpublic")
 public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
 
     /**
@@ -121,17 +123,6 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
     }
 
     @Override
-    public boolean matchesSafely(final KafkaRecord<K, V> actual) {
-        return Stream.of(
-            this.headers,
-            this.key,
-            this.value
-        ).allMatch(
-            (final Matcher<?> matcher) -> matcher.matches(actual)
-        );
-    }
-
-    @Override
     public void describeTo(final Description description) {
         description.appendText("Record matching: [");
         this.headers.describeTo(description);
@@ -140,6 +131,17 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
         description.appendText("], [");
         this.value.describeTo(description);
         description.appendText("]");
+    }
+
+    @Override
+    protected boolean matchesSafely(final KafkaRecord<K, V> actual) {
+        return Stream.of(
+            this.headers,
+            this.key,
+            this.value
+        ).allMatch(
+            (final Matcher<?> matcher) -> matcher.matches(actual)
+        );
     }
 
     /**
@@ -168,15 +170,15 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
         }
 
         @Override
-        public boolean matchesSafely(final TestRecord<K, V> record) {
-            return this.delegate.matches(
-                new KafkaRecord<>(record)
-            );
+        public void describeTo(final Description description) {
+            this.delegate.describeTo(description);
         }
 
         @Override
-        public void describeTo(final Description description) {
-            this.delegate.describeTo(description);
+        protected boolean matchesSafely(final TestRecord<K, V> record) {
+            return this.delegate.matches(
+                new KafkaRecord<>(record)
+            );
         }
     }
 }

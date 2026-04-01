@@ -56,7 +56,9 @@ import org.hamcrest.core.IsEqual;
  * }</pre>
  *
  * @since 0.0.1
+ * @checkstyle ProtectedMethodInFinalClassCheck (97 lines)
  */
+@SuppressWarnings("allpublic")
 public final class HasValue<V> extends TypeSafeMatcher<WithValue<V>> {
     /**
      * The matcher for the value of the object.
@@ -82,13 +84,13 @@ public final class HasValue<V> extends TypeSafeMatcher<WithValue<V>> {
     }
 
     @Override
-    public boolean matchesSafely(final WithValue<V> actual) {
-        return this.expected.matches(actual.value());
-    }
-
-    @Override
     public void describeTo(final Description description) {
         description.appendText("Value matching ");
         this.expected.describeTo(description);
+    }
+
+    @Override
+    protected boolean matchesSafely(final WithValue<V> actual) {
+        return this.expected.matches(actual.value());
     }
 }

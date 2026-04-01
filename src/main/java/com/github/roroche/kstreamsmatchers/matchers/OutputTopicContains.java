@@ -54,8 +54,11 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  *     )
  * );
  * }</pre>
+ *
  * @since 0.0.1
+ * @checkstyle ProtectedMethodInFinalClassCheck (130 lines)
  */
+@SuppressWarnings("allpublic")
 public final class OutputTopicContains<K, V>
     extends TypeSafeDiagnosingMatcher<TestOutputTopic<K, V>> {
 
@@ -103,9 +106,14 @@ public final class OutputTopicContains<K, V>
         this(new ListOf<>(expected));
     }
 
+    @Override
+    public void describeTo(final Description description) {
+        this.expected.describeTo(description);
+    }
+
     @SuppressWarnings("allfinal")
     @Override
-    public boolean matchesSafely(
+    protected boolean matchesSafely(
         final TestOutputTopic<K, V> topic,
         final Description description
     ) {
@@ -117,10 +125,5 @@ public final class OutputTopicContains<K, V>
             matches = false;
         }
         return matches;
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        this.expected.describeTo(description);
     }
 }

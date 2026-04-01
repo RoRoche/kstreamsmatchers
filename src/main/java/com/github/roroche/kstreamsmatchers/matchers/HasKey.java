@@ -56,7 +56,9 @@ import org.hamcrest.core.IsEqual;
  * }</pre>
  *
  * @since 0.0.1
+ * @checkstyle ProtectedMethodInFinalClassCheck (97 lines)
  */
+@SuppressWarnings("allpublic")
 public final class HasKey<K> extends TypeSafeMatcher<WithKey<K>> {
     /**
      * The matcher for the key of the object.
@@ -82,13 +84,13 @@ public final class HasKey<K> extends TypeSafeMatcher<WithKey<K>> {
     }
 
     @Override
-    public boolean matchesSafely(final WithKey<K> actual) {
-        return this.expected.matches(actual.key());
-    }
-
-    @Override
     public void describeTo(final Description description) {
         description.appendText("Key matching ");
         this.expected.describeTo(description);
+    }
+
+    @Override
+    protected boolean matchesSafely(final WithKey<K> actual) {
+        return this.expected.matches(actual.key());
     }
 }

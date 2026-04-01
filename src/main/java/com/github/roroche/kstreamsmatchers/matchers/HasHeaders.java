@@ -60,7 +60,9 @@ import org.hamcrest.core.IsEqual;
  * }</pre>
  *
  * @since 0.0.1
+ * @checkstyle ProtectedMethodInFinalClassCheck (132 lines)
  */
+@SuppressWarnings("allpublic")
 public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
     /**
      * The key of the header to check.
@@ -93,9 +95,17 @@ public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
         this(key, new IsEqual<>(expected));
     }
 
+    @Override
+    public void describeTo(final Description description) {
+        description.appendText("a TestRecord containing header ")
+            .appendValue(this.key)
+            .appendText(" with value ");
+        this.expected.describeTo(description);
+    }
+
     @SuppressWarnings({"nullfree", "allfinal"})
     @Override
-    public boolean matchesSafely(final WithHeaders actual) {
+    protected boolean matchesSafely(final WithHeaders actual) {
         final Headers headers = actual.headers();
         boolean matches = false;
         if (headers != null) {
@@ -107,17 +117,9 @@ public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
         return matches;
     }
 
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText("a TestRecord containing header ")
-            .appendValue(this.key)
-            .appendText(" with value ");
-        this.expected.describeTo(description);
-    }
-
     @SuppressWarnings("nullfree")
     @Override
-    public void describeMismatchSafely(final WithHeaders actual, final Description description) {
+    protected void describeMismatchSafely(final WithHeaders actual, final Description description) {
         final Header header = actual.headers().lastHeader(this.key);
         if (header == null) {
             description.appendText("header was missing");

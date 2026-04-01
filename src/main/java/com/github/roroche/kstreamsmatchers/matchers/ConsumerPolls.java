@@ -62,8 +62,9 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  * }</pre>
  *
  * @since 0.0.1
+ * @checkstyle ProtectedMethodInFinalClassCheck (192 lines)
  */
-@SuppressWarnings("allfinal")
+@SuppressWarnings({"allfinal", "allpublic"})
 public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consumer<K, V>> {
 
     /**
@@ -166,7 +167,12 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
     }
 
     @Override
-    public boolean matchesSafely(final Consumer<K, V> consumer, final Description description) {
+    public void describeTo(final Description description) {
+        this.expected.describeTo(description);
+    }
+
+    @Override
+    protected boolean matchesSafely(final Consumer<K, V> consumer, final Description description) {
         final List<KafkaRecord<K, V>> records =
             new PolledRecords<>(
                 consumer,
@@ -182,10 +188,4 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
         }
         return matches;
     }
-
-    @Override
-    public void describeTo(final Description description) {
-        this.expected.describeTo(description);
-    }
-
 }
