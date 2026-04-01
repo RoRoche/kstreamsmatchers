@@ -25,7 +25,6 @@ package com.github.roroche.kstreamsmatchers.topology;
 
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.stream.Collectors;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -59,7 +58,7 @@ public final class WordCountTopology implements Scalar<Topology> {
                         value.toLowerCase(Locale.ROOT).split("\\W+")
                     ).filter(
                         (final String word) -> !word.isEmpty()
-                    ).collect(Collectors.toList())
+                    ).toList()
             ).groupBy(
                 (final String key, final String word) -> word,
                 Grouped.with(Serdes.String(), Serdes.String())
