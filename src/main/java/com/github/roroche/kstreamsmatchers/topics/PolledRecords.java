@@ -72,8 +72,8 @@ public final class PolledRecords<K, V> extends ListEnvelope<KafkaRecord<K, V>> {
                             () -> {
                                 consumer.poll(Duration.ofMillis(500))
                                     .forEach(
-                                        (final ConsumerRecord<K, V> record) -> records.add(
-                                            new KafkaRecord<>(record)
+                                        (final ConsumerRecord<K, V> crecord) -> records.add(
+                                            new KafkaRecord<>(crecord)
                                         )
                                     );
                                 return records.size() >= size;
