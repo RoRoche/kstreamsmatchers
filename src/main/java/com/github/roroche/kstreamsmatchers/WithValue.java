@@ -21,7 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.github.roroche.kstreamsmatchers;
+
 /**
- * This package contains the main classes of the library.
+ * An interface for objects that have a Kafka value.
+ *
+ * @param <V> The type of the Kafka value
+ *
+ * @since 0.0.1
  */
-package com.github.roroche.javalib;
+@FunctionalInterface
+public interface WithValue<V> {
+    /**
+     * Returns the Kafka value.
+     *
+     * @return The Kafka value
+     */
+    V value();
+}

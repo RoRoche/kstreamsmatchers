@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
 /**
- * Package containing the topics utilities.
+ * This package contains the main classes of the library.
  */
-package com.github.roroche.kstreamsmatchers.topics;
+package com.github.roroche.kstreamsmatchers;

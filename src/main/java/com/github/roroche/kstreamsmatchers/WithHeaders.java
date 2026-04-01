@@ -21,42 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.roroche.javalib;
+package com.github.roroche.kstreamsmatchers;
+
+import org.apache.kafka.common.header.Headers;
 
 /**
- * Sum of two integers.
+ * An interface for objects that have Kafka headers.
  *
  * @since 0.0.1
  */
-public final class Sum {
-
+@FunctionalInterface
+public interface WithHeaders {
     /**
-     * The first integer.
-     */
-    private final int first;
-
-    /**
-     * The second integer.
-     */
-    private final int second;
-
-    /**
-     * Constructor.
+     * Returns the Kafka headers.
      *
-     * @param first The first integer.
-     * @param second The second integer.
+     * @return The Kafka headers
      */
-    public Sum(final int first, final int second) {
-        this.first = first;
-        this.second = second;
-    }
-
-    /**
-     * Result of the sum.
-     *
-     * @return The result of the sum.
-     */
-    public int result() {
-        return this.first + this.second;
-    }
+    Headers headers();
 }
