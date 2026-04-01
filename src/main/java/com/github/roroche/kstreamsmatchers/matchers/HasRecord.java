@@ -175,9 +175,9 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
         }
 
         @Override
-        protected boolean matchesSafely(final TestRecord<K, V> record) {
+        protected boolean matchesSafely(final TestRecord<K, V> trecord) {
             return this.delegate.matches(
-                new KafkaRecord<>(record)
+                new KafkaRecord<>(trecord)
             );
         }
     }
