@@ -83,13 +83,13 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
     /**
      * Secondary ctor, from a {@link TestRecord}.
      *
-     * @param record The test record to adapt
+     * @param trecord The test record to adapt
      */
-    public KafkaRecord(final TestRecord<K, V> record) {
+    public KafkaRecord(final TestRecord<K, V> trecord) {
         this(
-            record.headers(),
-            record.key(),
-            record.value()
+            trecord.headers(),
+            trecord.key(),
+            trecord.value()
         );
     }
 
