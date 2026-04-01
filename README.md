@@ -73,7 +73,7 @@ MatcherAssert.assertThat(
 );
 ```
 
-2. When dealing with a real Kafka topic, you can use the `TopicContains` matcher to check the contents of the topic:
+2. When dealing with a real Kafka topic, you can use the `ConsumerPolls` matcher to check the contents of the topic:
 
 ```java
 KafkaConsumer<String, Long> consumer = new KafkaConsumer<>(/*...*/);
