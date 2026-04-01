@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.roroche</groupId>
-  <artifactId>javalib</artifactId>
+  <artifactId>kstreamsmatchers</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>javalib</name>
-  <description>Description</description>
-  <url>https://github.com/RoRoche/javalib</url>
+  <name>kstreamsmatchers</name>
+  <description>Set of Hamcrest custom matchers for testing Kafka Streams applications</description>
+  <url>https://github.com/RoRoche/kstreamsmatchers</url>
   <licenses>
     <license>
       <name>MIT License</name>
@@ -24,9 +24,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git://github.com/RoRoche/javalib.git</connection>
-    <developerConnection>scm:git:ssh://github.com:RoRoche/javalib.git</developerConnection>
-    <url>https://github.com/RoRoche/javalib</url>
+    <connection>scm:git:git://github.com/RoRoche/kstreamsmatchers.git</connection>
+    <developerConnection>scm:git:ssh://github.com:RoRoche/kstreamsmatchers.git</developerConnection>
+    <url>https://github.com/RoRoche/kstreamsmatchers</url>
   </scm>
   <properties>
     <java.version>21</java.version>
@@ -38,6 +38,17 @@
     <qulice.version>0.25.1</qulice.version>
     <junit.version>6.0.3</junit.version>
     <hamcrest.version>3.0</hamcrest.version>
+    <eoconfig.version>0.0.4</eoconfig.version>
+    <jackson.version>2.17.0</jackson.version>
+    <eorules.version>0.0.1</eorules.version>
+    <archunit.version>1.4.1</archunit.version>
+    <kafka-streams.version>4.1.1</kafka-streams.version>
+    <cactoos.version>0.57.0</cactoos.version>
+    <mktmp.version>0.0.5</mktmp.version>
+    <awaitility.version>4.3.0</awaitility.version>
+    <testcontainers.version>2.0.2</testcontainers.version>
+    <maybeslow.version>0.0.4</maybeslow.version>
+    <slf4j-api.version>2.0.12</slf4j-api.version>
     <jacoco.version>0.8.14</jacoco.version>
     <youshallnotpass.version>0.6.0</youshallnotpass.version>
     <jtcop.version>1.4.3</jtcop.version>
@@ -52,6 +63,12 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>com.github.roroche</groupId>
+      <artifactId>eoconfig</artifactId>
+      <version>${eoconfig.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>${junit.version}</version>
@@ -64,9 +81,92 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j-api.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j-api.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-streams</artifactId>
+      <version>${kafka-streams.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-streams-test-utils</artifactId>
+      <version>${kafka-streams.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka-clients</artifactId>
+      <version>${kafka-streams.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>testcontainers-kafka</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.yegor256</groupId>
+      <artifactId>maybeslow</artifactId>
+      <version>${maybeslow.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.yegor256</groupId>
+      <artifactId>mktmp</artifactId>
+      <version>${mktmp.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>${awaitility.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.cactoos</groupId>
+      <artifactId>cactoos</artifactId>
+      <version>${cactoos.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
       <version>${hamcrest.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.roroche</groupId>
+      <artifactId>eorules</artifactId>
+      <version>${eorules.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit</artifactId>
+      <version>${archunit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
