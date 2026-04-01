@@ -21,24 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.roroche.javalib;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
-
 /**
- * Test for {@link Sum}.
- * @since 0.0.1
+ * Package containing the configuration classes for the tests.
  */
-@SuppressWarnings("allpublic")
-final class SumTest {
-    @Test
-    void isOk() {
-        MatcherAssert.assertThat(
-            "result is correct",
-            new Sum(1, 2).result(),
-            new IsEqual(3)
-        );
-    }
-}
+package com.github.roroche.kstreamsmatchers.configuration;

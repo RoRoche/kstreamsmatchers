@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
 /**
- * This package contains the tests for the main classes of the library.
+ * Package containing the topics utilities.
  */
-package com.github.roroche.javalib;
+package com.github.roroche.kstreamsmatchers.topics;

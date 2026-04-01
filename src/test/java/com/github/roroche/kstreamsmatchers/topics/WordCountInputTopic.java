@@ -21,42 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.github.roroche.javalib;
+package com.github.roroche.kstreamsmatchers.topics;
+
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.TestInputTopic;
+import org.apache.kafka.streams.TopologyTestDriver;
+import org.cactoos.Scalar;
 
 /**
- * Sum of two integers.
+ * A {@link Scalar} that creates a {@link TestInputTopic} for the word count topology.
  *
  * @since 0.0.1
  */
-public final class Sum {
-
+public final class WordCountInputTopic implements Scalar<TestInputTopic<String, String>> {
     /**
-     * The first integer.
+     * The topology test driver used to create the input topic.
      */
-    private final int first;
+    private final TopologyTestDriver driver;
 
     /**
-     * The second integer.
-     */
-    private final int second;
-
-    /**
-     * Constructor.
+     * Primary ctor.
      *
-     * @param first The first integer.
-     * @param second The second integer.
+     * @param driver The topology test driver used to create the input topic
      */
-    public Sum(final int first, final int second) {
-        this.first = first;
-        this.second = second;
+    public WordCountInputTopic(final TopologyTestDriver driver) {
+        this.driver = driver;
     }
 
-    /**
-     * Result of the sum.
-     *
-     * @return The result of the sum.
-     */
-    public int result() {
-        return this.first + this.second;
+    @Override
+    public TestInputTopic<String, String> value() {
+        return this.driver.createInputTopic(
+            "input-topic",
+            Serdes.String().serializer(),
+            Serdes.String().serializer()
+        );
     }
 }
