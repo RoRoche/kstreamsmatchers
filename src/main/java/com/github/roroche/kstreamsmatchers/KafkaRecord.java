@@ -96,13 +96,13 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
     /**
      * Secondary ctor, from a {@link ConsumerRecord}.
      *
-     * @param record The consumer record to adapt
+     * @param crecord The consumer record to adapt
      */
-    public KafkaRecord(final ConsumerRecord<K, V> record) {
+    public KafkaRecord(final ConsumerRecord<K, V> crecord) {
         this(
-            record.headers(),
-            record.key(),
-            record.value()
+            crecord.headers(),
+            crecord.key(),
+            crecord.value()
         );
     }
 
