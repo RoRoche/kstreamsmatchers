@@ -81,9 +81,9 @@ consumer.subscribe(Collections.singletonList("output-topic"));
 MatcherAssert.assertThat(
         consumer,
         new ConsumerPolls<>(
-                new MapEntry<>("hello", 1L),
-                new MapEntry<>("kafka", 2L),
-                new MapEntry<>("streams", 1L)
+                new KeyValue<>("hello", 1L),
+                new KeyValue<>("kafka", 2L),
+                new KeyValue<>("streams", 1L)
         )
 );
 ```
