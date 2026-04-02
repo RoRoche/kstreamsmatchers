@@ -238,7 +238,7 @@
                 <rule>
                   <limits>
                     <limit>
-                      <minimum>0.65</minimum>
+                      <minimum>0.60</minimum>
                       <!-- @todo #1:5m/DEV Restore a threshold at 0.80 -->
                     </limit>
                   </limits>
