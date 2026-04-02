@@ -43,6 +43,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
@@ -132,9 +133,9 @@ final class WordCountIntegrationTest {
                     "Output topic should contain the expected word counts in order",
                     consumer,
                     new ConsumerPolls<>(
-                        new MapEntry<>("hello", 1L),
-                        new MapEntry<>("kafka", 2L),
-                        new MapEntry<>("streams", 1L)
+                        new KeyValue<>("hello", 1L),
+                        new KeyValue<>("kafka", 2L),
+                        new KeyValue<>("streams", 1L)
                     )
                 );
             } finally {
