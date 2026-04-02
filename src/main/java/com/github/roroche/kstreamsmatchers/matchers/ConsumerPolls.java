@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.streams.KeyValue;
 import org.awaitility.core.DurationFactory;
 import org.awaitility.pollinterval.FixedPollInterval;
 import org.awaitility.pollinterval.PollInterval;
@@ -155,10 +156,44 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
     /**
      * Secondary ctor, for convenience.
      *
+     * @param timeout The maximum duration to wait for the expected records to be polled
+     * @param interval The interval between polls
+     * @param expected The expected records to be polled
+     */
+    @SafeVarargs
+    public ConsumerPolls(
+        final Duration timeout,
+        final PollInterval interval,
+        final KeyValue<K, V>... expected
+    ) {
+        this(
+            timeout,
+            interval,
+            new ListOf<>(Arrays.stream(expected).map(HasRecord::new).toList())
+        );
+    }
+
+    /**
+     * Secondary ctor, for convenience.
+     *
      * @param expected The expected records to be polled
      */
     @SafeVarargs
     public ConsumerPolls(final Map.Entry<K, V>... expected) {
+        this(
+            DurationFactory.of(1, TimeUnit.MINUTES),
+            new FixedPollInterval(DurationFactory.of(200, TimeUnit.MILLISECONDS)),
+            expected
+        );
+    }
+
+    /**
+     * Secondary ctor, for convenience.
+     *
+     * @param expected The expected records to be polled
+     */
+    @SafeVarargs
+    public ConsumerPolls(final KeyValue<K, V>... expected) {
         this(
             DurationFactory.of(1, TimeUnit.MINUTES),
             new FixedPollInterval(DurationFactory.of(200, TimeUnit.MILLISECONDS)),
