@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.roroche</groupId>
   <artifactId>kstreamsmatchers</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
   <packaging>jar</packaging>
   <name>kstreamsmatchers</name>
   <description>Set of Hamcrest custom matchers for testing Kafka Streams applications</description>
