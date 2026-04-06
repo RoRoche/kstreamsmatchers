@@ -42,7 +42,7 @@
     <jackson.version>2.17.0</jackson.version>
     <eorules.version>0.0.1</eorules.version>
     <archunit.version>1.4.1</archunit.version>
-    <kafka-streams.version>4.1.1</kafka-streams.version>
+    <kafka-streams.version>4.2.0</kafka-streams.version>
     <cactoos.version>0.59.0</cactoos.version>
     <mktmp.version>0.0.5</mktmp.version>
     <awaitility.version>4.3.0</awaitility.version>
