@@ -46,7 +46,7 @@
     <cactoos.version>0.59.0</cactoos.version>
     <mktmp.version>0.0.5</mktmp.version>
     <awaitility.version>4.3.0</awaitility.version>
-    <testcontainers.version>2.0.2</testcontainers.version>
+    <testcontainers.version>2.0.4</testcontainers.version>
     <maybeslow.version>0.0.4</maybeslow.version>
     <slf4j-api.version>2.0.12</slf4j-api.version>
     <jacoco.version>0.8.14</jacoco.version>
