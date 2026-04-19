@@ -39,7 +39,8 @@
     <junit.version>6.0.3</junit.version>
     <hamcrest.version>3.0</hamcrest.version>
     <eoconfig.version>0.0.4</eoconfig.version>
-    <jackson.version>2.21</jackson.version>
+    <jackson-annotations.version>2.21</jackson-annotations.version>
+    <jackson-databind.version>3.1.2</jackson-databind.version>
     <eorules.version>0.0.1</eorules.version>
     <archunit.version>1.4.1</archunit.version>
     <kafka-streams.version>4.2.0</kafka-streams.version>
@@ -160,13 +161,13 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>${jackson.version}</version>
+      <version>${jackson-annotations.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
+      <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>${jackson.version}</version>
+      <version>${jackson-databind.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
