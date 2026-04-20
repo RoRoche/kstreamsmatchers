@@ -42,7 +42,7 @@
     <jackson-annotations.version>2.21</jackson-annotations.version>
     <jackson-databind.version>3.1.2</jackson-databind.version>
     <eorules.version>0.0.1</eorules.version>
-    <archunit.version>1.4.1</archunit.version>
+    <archunit.version>1.4.2</archunit.version>
     <kafka-streams.version>4.2.0</kafka-streams.version>
     <cactoos.version>0.59.0</cactoos.version>
     <mktmp.version>0.0.5</mktmp.version>
