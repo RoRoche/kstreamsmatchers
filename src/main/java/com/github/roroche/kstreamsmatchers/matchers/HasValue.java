@@ -32,7 +32,6 @@ import org.hamcrest.core.IsEqual;
 /**
  * A Hamcrest matcher that checks if a {@link WithValue} object
  * has a value matching a specific value or matcher.
- *
  * @param <V> The type of the value
  *
  * <p><b>Example:</b></p>
@@ -54,33 +53,31 @@ import org.hamcrest.core.IsEqual;
  *     )
  * );
  * }</pre>
- *
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (97 lines)
 @SuppressWarnings("allpublic")
 public final class HasValue<V> extends TypeSafeMatcher<WithValue<V>> {
+
     /**
      * The matcher for the value of the object.
      */
     private final Matcher<V> expected;
 
     /**
-     * Constructs a HasValue matcher with the given expected value matcher.
-     *
-     * @param expected The matcher for the value of the object
-     */
-    public HasValue(final Matcher<V> expected) {
-        this.expected = expected;
-    }
-
-    /**
      * Constructs a HasValue matcher with the given expected value.
-     *
      * @param expected The expected value of the object
      */
     public HasValue(final V expected) {
         this(new IsEqual<>(expected));
+    }
+
+    /**
+     * Constructs a HasValue matcher with the given expected value matcher.
+     * @param expected The matcher for the value of the object
+     */
+    public HasValue(final Matcher<V> expected) {
+        this.expected = expected;
     }
 
     @Override

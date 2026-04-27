@@ -25,6 +25,7 @@ package com.github.roroche.kstreamsmatchers.topology;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.regex.Pattern;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -40,10 +41,15 @@ import org.cactoos.Scalar;
 
 /**
  * A simple WordCount topology for testing purposes.
- *
  * @since 0.0.1
  */
 public final class WordCountTopology implements Scalar<Topology> {
+
+    /**
+     * A regex pattern to split words, matching any non-word character.
+     */
+    private static final Pattern NON_WORD = Pattern.compile("\\W+");
+
     @Override
     public Topology value() {
         final StreamsBuilder builder = new StreamsBuilder();
@@ -51,14 +57,13 @@ public final class WordCountTopology implements Scalar<Topology> {
             "input-topic",
             Consumed.with(Serdes.String(), Serdes.String())
         );
-        final KTable<String, Long> counts = source
-            .flatMapValues(
-                (final String value) ->
-                    Arrays.stream(
-                        value.toLowerCase(Locale.ROOT).split("\\W+")
-                    ).filter(
-                        (final String word) -> !word.isEmpty()
-                    ).toList()
+        final KTable<String, Long> counts = source.flatMapValues(
+            (final String value) ->
+                Arrays.stream(
+                    WordCountTopology.NON_WORD.split(value.toLowerCase(Locale.ROOT))
+                ).filter(
+                    (final String word) -> !word.isEmpty()
+                ).toList()
             ).groupBy(
                 (final String key, final String word) -> word,
                 Grouped.with(Serdes.String(), Serdes.String())

@@ -27,14 +27,13 @@ import org.apache.kafka.common.header.Headers;
 
 /**
  * An interface for objects that have Kafka headers.
- *
  * @since 0.0.1
  */
 @FunctionalInterface
 public interface WithHeaders {
+
     /**
      * Returns the Kafka headers.
-     *
      * @return The Kafka headers
      */
     Headers headers();

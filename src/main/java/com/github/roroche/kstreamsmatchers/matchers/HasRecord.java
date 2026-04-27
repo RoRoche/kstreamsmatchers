@@ -37,7 +37,6 @@ import org.hamcrest.TypeSafeMatcher;
 
 /**
  * A Hamcrest matcher that checks if a {@link KafkaRecord} has specific headers, key and value.
- *
  * @param <K> The type of the key
  * @param <V> The type of the value
  *
@@ -50,7 +49,6 @@ import org.hamcrest.TypeSafeMatcher;
  *     new HasRecord<>("user-1", "Hello World")
  * );
  * }</pre>
- *
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (185 lines)
@@ -73,26 +71,8 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
     private final Matcher<WithValue<V>> value;
 
     /**
-     * Constructs a HasRecord matcher with the given expected headers, key and value matchers.
-     *
-     * @param headers The matcher for the headers of the record
-     * @param key The matcher for the key of the record
-     * @param value The matcher for the value of the record
-     */
-    public HasRecord(
-        final Matcher<WithHeaders> headers,
-        final Matcher<WithKey<K>> key,
-        final Matcher<WithValue<V>> value
-    ) {
-        this.headers = headers;
-        this.key = key;
-        this.value = value;
-    }
-
-    /**
      * Constructs a HasRecord matcher with
      * the expected key and value matchers, and ignoring headers.
-     *
      * @param key The expected key of the record
      * @param value The expected value of the record
      */
@@ -106,7 +86,6 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
 
     /**
      * Constructs a HasRecord matcher with the given expected key and value, and ignoring headers.
-     *
      * @param keyvalue The expected key and value of the record
      */
     public HasRecord(final KeyValue<K, V> keyvalue) {
@@ -115,11 +94,26 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
 
     /**
      * Constructs a HasRecord matcher with the given expected key and value, and ignoring headers.
-     *
      * @param entry The expected key and value of the record
      */
     public HasRecord(final Map.Entry<K, V> entry) {
         this(entry.getKey(), entry.getValue());
+    }
+
+    /**
+     * Constructs a HasRecord matcher with the given expected headers, key and value matchers.
+     * @param headers The matcher for the headers of the record
+     * @param key The matcher for the key of the record
+     * @param value The matcher for the value of the record
+     */
+    public HasRecord(
+        final Matcher<WithHeaders> headers,
+        final Matcher<WithKey<K>> key,
+        final Matcher<WithValue<V>> value
+    ) {
+        this.headers = headers;
+        this.key = key;
+        this.value = value;
     }
 
     @Override
@@ -147,14 +141,13 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
     /**
      * A Hamcrest matcher that checks if a {@link TestRecord}
      * has specific headers, key and value, by converting it to a {@link KafkaRecord}.
-     *
      * @param <K> The type of the key
      * @param <V> The type of the value
-     *
      * @since 0.0.1
      */
     @SuppressWarnings("staticfree")
     public static final class FromTestRecord<K, V> extends TypeSafeMatcher<TestRecord<K, V>> {
+
         /**
          * The delegate matcher for the KafkaRecord converted from the TestRecord.
          */
@@ -162,7 +155,6 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
 
         /**
          * Constructs a FromTestRecord matcher with the given delegate matcher.
-         *
          * @param delegate The delegate matcher for the KafkaRecord converted from the TestRecord
          */
         public FromTestRecord(final Matcher<KafkaRecord<K, V>> delegate) {

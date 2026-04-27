@@ -31,10 +31,10 @@ import org.cactoos.map.MapEntry;
 
 /**
  * A configuration for the WordCount topology in tests.
- *
  * @since 0.0.1
  */
 public final class WordCountConfiguration extends ConfigurationEnvelope {
+
     /**
      * Constructs a WordCountConfiguration with the given state directory.
      */

@@ -35,7 +35,6 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 
 /**
  * A Hamcrest matcher that checks if a {@link TestOutputTopic} contains specific records in order.
- *
  * @param <K> The type of the key
  * @param <V> The type of the value
  *
@@ -54,7 +53,6 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  *     )
  * );
  * }</pre>
- *
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (130 lines)
@@ -68,42 +66,38 @@ public final class OutputTopicContains<K, V>
     private final Matcher<? super Iterable<TestRecord<K, V>>> expected;
 
     /**
-     * Constructs an OutputTopicContains matcher with the given expected records matcher.
-     *
-     * @param expected The matcher for the records in the output topic
-     */
-    public OutputTopicContains(
-        final Matcher<? super Iterable<TestRecord<K, V>>> expected
-    ) {
-        this.expected = expected;
-    }
-
-    /**
      * Constructs an OutputTopicContains matcher with the given expected records.
-     *
      * @param expected The expected records in the output topic
      */
     @SuppressWarnings("unchecked")
     public OutputTopicContains(final List<KeyValue<K, V>> expected) {
         this(
             IsIterableContainingInOrder.contains(
-                expected.stream()
-                    .map(
-                        (final KeyValue<K, V> kv) ->
-                            new HasRecord.FromTestRecord<>(new HasRecord<>(kv))
-                    ).toArray(Matcher[]::new)
+                expected.stream().map(
+                    (final KeyValue<K, V> kv) ->
+                        new HasRecord.FromTestRecord<>(new HasRecord<>(kv))
+                ).toArray(Matcher[]::new)
             )
         );
     }
 
     /**
      * Constructs an OutputTopicContains matcher with the given expected records.
-     *
      * @param expected The expected records in the output topic
      */
     @SafeVarargs
     public OutputTopicContains(final KeyValue<K, V>... expected) {
         this(new ListOf<>(expected));
+    }
+
+    /**
+     * Constructs an OutputTopicContains matcher with the given expected records matcher.
+     * @param expected The matcher for the records in the output topic
+     */
+    public OutputTopicContains(
+        final Matcher<? super Iterable<TestRecord<K, V>>> expected
+    ) {
+        this.expected = expected;
     }
 
     @Override

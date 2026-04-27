@@ -31,10 +31,10 @@ import org.cactoos.map.MapEntry;
 
 /**
  * A configuration for Kafka producers in integration tests.
- *
  * @since 0.0.1
  */
 public final class ItProducerConfiguration extends ConfigurationEnvelope {
+
     /**
      * Constructs an ItProducerConfiguration with the given Kafka container.
      */

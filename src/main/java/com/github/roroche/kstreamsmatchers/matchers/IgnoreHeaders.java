@@ -56,6 +56,7 @@ import org.hamcrest.TypeSafeMatcher;
 // @checkstyle ProtectedMethodInFinalClassCheck (69 lines)
 @SuppressWarnings("allpublic")
 public final class IgnoreHeaders extends TypeSafeMatcher<WithHeaders> {
+
     @Override
     public void describeTo(final Description description) {
         description.appendText("Ignored headers");

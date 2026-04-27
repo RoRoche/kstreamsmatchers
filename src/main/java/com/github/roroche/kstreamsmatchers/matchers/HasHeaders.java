@@ -64,6 +64,7 @@ import org.hamcrest.core.IsEqual;
 // @checkstyle ProtectedMethodInFinalClassCheck (132 lines)
 @SuppressWarnings("allpublic")
 public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
+
     /**
      * The key of the header to check.
      */
@@ -75,24 +76,22 @@ public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
     private final Matcher<byte[]> expected;
 
     /**
+     * Constructs a HasHeaders matcher with the given key and expected value.
+     * @param key The key of the header to check
+     * @param expected The expected value of the header
+     */
+    public HasHeaders(final String key, final byte[] expected) {
+        this(key, new IsEqual<>(expected));
+    }
+
+    /**
      * Constructs a HasHeaders matcher with the given key and expected value matcher.
-     *
      * @param key The key of the header to check
      * @param expected The matcher for the value of the header
      */
     public HasHeaders(final String key, final Matcher<byte[]> expected) {
         this.key = key;
         this.expected = expected;
-    }
-
-    /**
-     * Constructs a HasHeaders matcher with the given key and expected value.
-     *
-     * @param key The key of the header to check
-     * @param expected The expected value of the header
-     */
-    public HasHeaders(final String key, final byte[] expected) {
-        this(key, new IsEqual<>(expected));
     }
 
     @Override
