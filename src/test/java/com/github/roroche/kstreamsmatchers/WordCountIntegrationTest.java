@@ -47,8 +47,6 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.kafka.ConfluentKafkaContainer;
@@ -56,61 +54,47 @@ import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test class for the word count topology.
- *
  * @since 0.0.1
  */
 @SuppressWarnings({"allpublic", "allfinal", "JTCOP.RuleEveryTestHasProductionClass"})
 @ExtendWith(MktmpResolver.class)
 final class WordCountIntegrationTest {
 
-    /**
-     * The Kafka container used to run the tests.
-     */
-    private ConfluentKafkaContainer kafka;
-
-    @BeforeEach
-    void setUp() {
-        this.kafka = new ConfluentKafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka:7.4.0")
-        );
-        this.kafka.start();
-    }
-
-    @SuppressWarnings("nullfree")
-    @AfterEach
-    void tearDown() {
-        if (this.kafka != null) {
-            this.kafka.stop();
-        }
-    }
-
     @Test
     @ExtendWith(MayBeSlow.class)
     void isProducingFinalWordCounts(@Mktmp final Path tmp) throws Exception {
-        try (KafkaStreams streams = new KafkaStreams(
-            new WordCountTopology().value(),
-            new OverlayConfiguration(
-                new ItStreamsConfiguration(),
-                new MapEntry<>(
-                    StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,
-                    this.kafka.getBootstrapServers()
-                ),
-                new MapEntry<>(
-                    StreamsConfig.STATE_DIR_CONFIG,
-                    tmp.toString()
-                )
-            ).properties()
-        )) {
-            streams.start();
-            try (Producer<String, String> producer = new KafkaProducer<>(
+        final ConfluentKafkaContainer kafka = new ConfluentKafkaContainer(
+            DockerImageName.parse("confluentinc/cp-kafka:7.4.0")
+        );
+        kafka.start();
+        try (
+            KafkaStreams streams = new KafkaStreams(
+                new WordCountTopology().value(),
                 new OverlayConfiguration(
-                    new ItProducerConfiguration(),
+                    new ItStreamsConfiguration(),
                     new MapEntry<>(
-                        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                        this.kafka.getBootstrapServers()
+                        StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,
+                        kafka.getBootstrapServers()
+                    ),
+                    new MapEntry<>(
+                        StreamsConfig.STATE_DIR_CONFIG,
+                        tmp.toString()
                     )
                 ).properties()
-            )) {
+            )
+        ) {
+            streams.start();
+            try (
+                Producer<String, String> producer = new KafkaProducer<>(
+                    new OverlayConfiguration(
+                        new ItProducerConfiguration(),
+                        new MapEntry<>(
+                            ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                            kafka.getBootstrapServers()
+                        )
+                    ).properties()
+                )
+            ) {
                 producer.send(
                     new ProducerRecord<>(
                         "input-topic",
@@ -119,15 +103,17 @@ final class WordCountIntegrationTest {
                     )
                 ).get();
             }
-            try (Consumer<String, Long> consumer = new KafkaConsumer<>(
-                new OverlayConfiguration(
-                    new ItConsumerConfiguration(),
-                    new MapEntry<>(
-                        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                        this.kafka.getBootstrapServers()
-                    )
-                ).properties()
-            )) {
+            try (
+                Consumer<String, Long> consumer = new KafkaConsumer<>(
+                    new OverlayConfiguration(
+                        new ItConsumerConfiguration(),
+                        new MapEntry<>(
+                            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                            kafka.getBootstrapServers()
+                        )
+                    ).properties()
+                )
+            ) {
                 consumer.subscribe(Collections.singletonList("output-topic"));
                 MatcherAssert.assertThat(
                     "Output topic should contain the expected word counts in order",
@@ -141,6 +127,8 @@ final class WordCountIntegrationTest {
             } finally {
                 streams.close(Duration.ofSeconds(5));
             }
+        } finally {
+            kafka.stop();
         }
     }
 }

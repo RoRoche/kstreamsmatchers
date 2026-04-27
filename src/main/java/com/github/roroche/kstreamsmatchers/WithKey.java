@@ -25,16 +25,14 @@ package com.github.roroche.kstreamsmatchers;
 
 /**
  * An interface for objects that have a Kafka key.
- *
  * @param <K> The type of the Kafka key
- *
  * @since 0.0.1
  */
 @FunctionalInterface
 public interface WithKey<K> {
+
     /**
      * Returns the Kafka key.
-     *
      * @return The Kafka key
      */
     K key();

@@ -30,10 +30,10 @@ import org.cactoos.Scalar;
 
 /**
  * A {@link Scalar} that creates a {@link TestInputTopic} for the word count topology.
- *
  * @since 0.0.1
  */
 public final class WordCountInputTopic implements Scalar<TestInputTopic<String, String>> {
+
     /**
      * The topology test driver used to create the input topic.
      */
@@ -41,7 +41,6 @@ public final class WordCountInputTopic implements Scalar<TestInputTopic<String, 
 
     /**
      * Primary ctor.
-     *
      * @param driver The topology test driver used to create the input topic
      */
     public WordCountInputTopic(final TopologyTestDriver driver) {

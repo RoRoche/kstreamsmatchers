@@ -38,58 +38,41 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test class for the word count topology.
- *
  * @since 0.0.1
  */
 @SuppressWarnings({"allpublic", "allfinal", "JTCOP.RuleEveryTestHasProductionClass"})
 @ExtendWith(MktmpResolver.class)
 final class WordCountTopologyTest {
 
-    /**
-     * The topology test driver used to run the tests.
-     */
-    private TopologyTestDriver driver;
-
-    @BeforeEach
-    void setUp(@Mktmp final Path tmp) {
-        this.driver = new TopologyTestDriver(
-            new WordCountTopology().value(),
-            new OverlayConfiguration(
-                new WordCountConfiguration(),
-                new MapEntry<>(StreamsConfig.STATE_DIR_CONFIG, tmp.toString())
-            ).properties()
-        );
-    }
-
-    @SuppressWarnings("nullfree")
-    @AfterEach
-    void tearDown() {
-        if (this.driver != null) {
-            this.driver.close();
-        }
-    }
-
     @Test
-    void isOk() {
-        MatcherAssert.assertThat(
-            "When a word count topology is applied to an input topic, the output topic contains the correct word counts",
-            new PipedOutputTopic<>(
-                new WordCountInputTopic(this.driver),
-                new WordCountOutputTopic(this.driver)
-            ).apply("key1", "Hello Kafka Kafka Streams"),
-            new OutputTopicContains<>(
-                new KeyValue<>("hello", 1L),
-                new KeyValue<>("kafka", 1L),
-                new KeyValue<>("kafka", 2L),
-                new KeyValue<>("streams", 1L)
+    void isOk(@Mktmp final Path tmp) {
+        try (
+            TopologyTestDriver driver = new TopologyTestDriver(
+                new WordCountTopology().value(),
+                new OverlayConfiguration(
+                    new WordCountConfiguration(),
+                    new MapEntry<>(StreamsConfig.STATE_DIR_CONFIG, tmp.toString())
+                ).properties()
             )
-        );
+        ) {
+            MatcherAssert.assertThat(
+                "When a word count topology is applied to an input topic, the output topic contains the correct word counts",
+                new PipedOutputTopic<>(
+                    new WordCountInputTopic(driver),
+                    new WordCountOutputTopic(driver)
+                ).apply("key1", "Hello Kafka Kafka Streams"),
+                new OutputTopicContains<>(
+                    new KeyValue<>("hello", 1L),
+                    new KeyValue<>("kafka", 1L),
+                    new KeyValue<>("kafka", 2L),
+                    new KeyValue<>("streams", 1L)
+                )
+            );
+        }
     }
 }

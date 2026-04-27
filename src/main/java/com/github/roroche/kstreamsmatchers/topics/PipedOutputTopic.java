@@ -32,7 +32,6 @@ import org.cactoos.scalar.Unchecked;
 /**
  * A {@link BiFunc} that pipes input to a {@link TestInputTopic}
  * and returns a {@link TestOutputTopic}.
- *
  * @param <X> The type of the key of the input topic
  * @param <Z> The type of the value of the input topic
  * @param <K> The type of the key of the output topic
@@ -56,7 +55,6 @@ import org.cactoos.scalar.Unchecked;
  *     )
  * );
  * }</pre>
- *
  * @since 0.0.1
  */
 public final class PipedOutputTopic<X, Z, K, V> implements BiFunc<X, Z, TestOutputTopic<K, V>> {
@@ -72,19 +70,7 @@ public final class PipedOutputTopic<X, Z, K, V> implements BiFunc<X, Z, TestOutp
     private final TestOutputTopic<K, V> output;
 
     /**
-     * Primary ctor.
-     *
-     * @param input The input topic to which the key and value will be piped
-     * @param output The output topic that will be returned after piping the input
-     */
-    public PipedOutputTopic(final TestInputTopic<X, Z> input, final TestOutputTopic<K, V> output) {
-        this.input = input;
-        this.output = output;
-    }
-
-    /**
      * Ctor that accepts scalars for the input and output topics.
-     *
      * @param input The scalar for the input topic to which the key and value will be piped
      * @param output The scalar for the output topic that will be returned after piping the input
      */
@@ -96,6 +82,16 @@ public final class PipedOutputTopic<X, Z, K, V> implements BiFunc<X, Z, TestOutp
             new Unchecked<>(input).value(),
             new Unchecked<>(output).value()
         );
+    }
+
+    /**
+     * Primary ctor.
+     * @param input The input topic to which the key and value will be piped
+     * @param output The output topic that will be returned after piping the input
+     */
+    public PipedOutputTopic(final TestInputTopic<X, Z> input, final TestOutputTopic<K, V> output) {
+        this.input = input;
+        this.output = output;
     }
 
     @Override

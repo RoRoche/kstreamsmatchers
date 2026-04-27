@@ -29,7 +29,6 @@ import org.apache.kafka.streams.test.TestRecord;
 
 /**
  * A Kafka record with headers, key and value (following the Adapter pattern).
- *
  * @param <K> The type of the key
  * @param <V> The type of the value
  *
@@ -49,7 +48,6 @@ import org.apache.kafka.streams.test.TestRecord;
  *
  * @since 0.0.1
  */
-@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithValue<V> {
 
     /**
@@ -68,21 +66,7 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
     private final V value;
 
     /**
-     * Primary ctor.
-     *
-     * @param headers The headers of the record
-     * @param key The key of the record
-     * @param value The value of the record
-     */
-    public KafkaRecord(final Headers headers, final K key, final V value) {
-        this.headers = headers;
-        this.key = key;
-        this.value = value;
-    }
-
-    /**
      * Secondary ctor, from a {@link TestRecord}.
-     *
      * @param trecord The test record to adapt
      */
     public KafkaRecord(final TestRecord<K, V> trecord) {
@@ -95,7 +79,6 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
 
     /**
      * Secondary ctor, from a {@link ConsumerRecord}.
-     *
      * @param crecord The consumer record to adapt
      */
     public KafkaRecord(final ConsumerRecord<K, V> crecord) {
@@ -104,6 +87,18 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
             crecord.key(),
             crecord.value()
         );
+    }
+
+    /**
+     * Primary ctor.
+     * @param headers The headers of the record
+     * @param key The key of the record
+     * @param value The value of the record
+     */
+    public KafkaRecord(final Headers headers, final K key, final V value) {
+        this.headers = headers;
+        this.key = key;
+        this.value = value;
     }
 
     @Override

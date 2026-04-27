@@ -32,7 +32,6 @@ import org.hamcrest.core.IsEqual;
 /**
  * A Hamcrest matcher that checks if a {@link WithKey} object has a key
  * matching a specific value or matcher.
- *
  * @param <K> The type of the key
  *
  * <p><b>Example:</b></p>
@@ -54,33 +53,31 @@ import org.hamcrest.core.IsEqual;
  *     )
  * );
  * }</pre>
- *
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (97 lines)
 @SuppressWarnings("allpublic")
 public final class HasKey<K> extends TypeSafeMatcher<WithKey<K>> {
+
     /**
      * The matcher for the key of the object.
      */
     private final Matcher<K> expected;
 
     /**
-     * Constructs a HasKey matcher with the given expected key matcher.
-     *
-     * @param expected The matcher for the key of the object
-     */
-    public HasKey(final Matcher<K> expected) {
-        this.expected = expected;
-    }
-
-    /**
      * Constructs a HasKey matcher with the given expected key.
-     *
      * @param expected The expected key of the object
      */
     public HasKey(final K expected) {
         this(new IsEqual<>(expected));
+    }
+
+    /**
+     * Constructs a HasKey matcher with the given expected key matcher.
+     * @param expected The matcher for the key of the object
+     */
+    public HasKey(final Matcher<K> expected) {
+        this.expected = expected;
     }
 
     @Override

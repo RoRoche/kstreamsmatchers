@@ -25,16 +25,14 @@ package com.github.roroche.kstreamsmatchers;
 
 /**
  * An interface for objects that have a Kafka value.
- *
  * @param <V> The type of the Kafka value
- *
  * @since 0.0.1
  */
 @FunctionalInterface
 public interface WithValue<V> {
+
     /**
      * Returns the Kafka value.
-     *
      * @return The Kafka value
      */
     V value();
