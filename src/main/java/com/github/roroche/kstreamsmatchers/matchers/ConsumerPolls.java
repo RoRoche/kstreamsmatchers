@@ -92,6 +92,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param expected The expected records to be polled
+     * @checkstyle ConstructorsCodeFreeCheck (16 lines)
      */
     public ConsumerPolls(
         final Duration timeout,
@@ -113,6 +114,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param expected The expected records to be polled
+     * @checkstyle ConstructorsCodeFreeCheck (13 lines)
      */
     @SafeVarargs
     public ConsumerPolls(
@@ -132,6 +134,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param expected The expected records to be polled
+     * @checkstyle ConstructorsCodeFreeCheck (13 lines)
      */
     @SafeVarargs
     public ConsumerPolls(
@@ -149,6 +152,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
     /**
      * Secondary ctor, for convenience.
      * @param expected The expected records to be polled
+     * @checkstyle ConstructorsCodeFreeCheck (9 lines)
      */
     @SafeVarargs
     public ConsumerPolls(final Map.Entry<K, V>... expected) {
@@ -162,6 +166,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
     /**
      * Secondary ctor, for convenience.
      * @param expected The expected records to be polled
+     * @checkstyle ConstructorsCodeFreeCheck (9 lines)
      */
     @SafeVarargs
     public ConsumerPolls(final KeyValue<K, V>... expected) {

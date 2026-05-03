@@ -49,9 +49,8 @@ public final class PolledRecords<K, V> extends ListEnvelope<KafkaRecord<K, V>> {
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param size The expected number of records to be polled
-     */
-    /*
-     * @checkstyle ParameterNumberCheck (25 lines)
+     * @checkstyle ConstructorsCodeFreeCheck (27 lines)
+     * @checkstyle ParameterNumberCheck (26 lines)
      */
     public PolledRecords(
         final Consumer<K, V> consumer,

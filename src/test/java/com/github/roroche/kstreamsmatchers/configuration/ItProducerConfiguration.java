@@ -37,6 +37,7 @@ public final class ItProducerConfiguration extends ConfigurationEnvelope {
 
     /**
      * Constructs an ItProducerConfiguration with the given Kafka container.
+     * @checkstyle ConstructorsCodeFreeCheck (15 lines)
      */
     public ItProducerConfiguration() {
         super(
