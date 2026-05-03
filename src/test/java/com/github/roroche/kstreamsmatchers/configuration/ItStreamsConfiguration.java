@@ -38,6 +38,8 @@ public final class ItStreamsConfiguration extends ConfigurationEnvelope {
 
     /**
      * Constructs an ItStreamsConfiguration with the given Kafka container and temporary directory.
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (19 lines)
      */
     public ItStreamsConfiguration() {

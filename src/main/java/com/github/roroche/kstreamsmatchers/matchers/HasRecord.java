@@ -87,6 +87,8 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
     /**
      * Constructs a HasRecord matcher with the given expected key and value, and ignoring headers.
      * @param keyvalue The expected key and value of the record
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (4 lines)
      */
     public HasRecord(final KeyValue<K, V> keyvalue) {
@@ -96,6 +98,8 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
     /**
      * Constructs a HasRecord matcher with the given expected key and value, and ignoring headers.
      * @param entry The expected key and value of the record
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (4 lines)
      */
     public HasRecord(final Map.Entry<K, V> entry) {
