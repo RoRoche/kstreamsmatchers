@@ -48,7 +48,7 @@ public final class WordCountTopology implements Scalar<Topology> {
     /**
      * A regex pattern to split words, matching any non-word character.
      */
-    private static final Pattern NON_WORD = Pattern.compile("\\W+");
+    private final Pattern regex = Pattern.compile("\\W+");
 
     @Override
     public Topology value() {
@@ -60,7 +60,7 @@ public final class WordCountTopology implements Scalar<Topology> {
         final KTable<String, Long> counts = source.flatMapValues(
             (final String value) ->
                 Arrays.stream(
-                    WordCountTopology.NON_WORD.split(value.toLowerCase(Locale.ROOT))
+                    this.regex.split(value.toLowerCase(Locale.ROOT))
                 ).filter(
                     (final String word) -> !word.isEmpty()
                 ).toList()
