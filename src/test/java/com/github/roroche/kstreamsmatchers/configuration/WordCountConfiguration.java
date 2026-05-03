@@ -37,6 +37,8 @@ public final class WordCountConfiguration extends ConfigurationEnvelope {
 
     /**
      * Constructs a WordCountConfiguration with the given state directory.
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (17 lines)
      */
     public WordCountConfiguration() {

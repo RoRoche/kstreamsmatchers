@@ -68,6 +68,8 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
     /**
      * Secondary ctor, from a {@link TestRecord}.
      * @param trecord The test record to adapt
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (8 lines)
      */
     public KafkaRecord(final TestRecord<K, V> trecord) {
@@ -81,6 +83,8 @@ public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithVal
     /**
      * Secondary ctor, from a {@link ConsumerRecord}.
      * @param crecord The consumer record to adapt
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (8 lines)
      */
     public KafkaRecord(final ConsumerRecord<K, V> crecord) {

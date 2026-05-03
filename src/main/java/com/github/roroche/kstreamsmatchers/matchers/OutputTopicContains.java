@@ -68,6 +68,8 @@ public final class OutputTopicContains<K, V>
     /**
      * Constructs an OutputTopicContains matcher with the given expected records.
      * @param expected The expected records in the output topic
+     */
+    /*
      * @checkstyle ConstructorsCodeFreeCheck (12 lines)
      */
     @SuppressWarnings("unchecked")
