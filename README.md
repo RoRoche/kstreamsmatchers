@@ -38,6 +38,8 @@ Set of [Hamcrest](https://hamcrest.org/) custom matchers for testing Kafka Strea
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.roroche/kstreamsmatchers.svg?label=Maven%20Central)](https://search.maven.org/artifact/com.github.roroche/kstreamsmatchers)
 [![Javadoc](https://javadoc.io/badge2/com.github.roroche/kstreamsmatchers/javadoc.svg)](https://javadoc.io/doc/com.github.roroche/kstreamsmatchers)
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/RoRoche/kstreamsmatchers/blob/main/LICENSE)
+
 ## ✨ Features
 
 - A custom Hamcrest matcher to check the contents of records coming from TopologyTestDriver.
