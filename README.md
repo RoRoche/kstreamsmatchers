@@ -5,7 +5,7 @@ Set of [Hamcrest](https://hamcrest.org/) custom matchers for testing Kafka Strea
 `kstreamsmatchers` helps you to write fluent and concise tests.
 
 [![Build Status](https://github.com/RoRoche/kstreamsmatchers/actions/workflows/build-java.yml/badge.svg)](https://github.com/RoRoche/kstreamsmatchers/actions)
-[![YAML Lint](https://github.com/RoRoche/kstreamsmatchers/actions/workflows/yamllint.yml/badge.svg)](https://github.com/RoRoche/kstreamsmatchers/actions/workflows/yamllint.yml)
+[![Python CI](https://github.com/RoRoche/kstreamsmatchers/actions/workflows/python.yml/badge.svg)](https://github.com/RoRoche/kstreamsmatchers/actions/workflows/python.yml)
 ![Nodes.js CI](https://github.com/RoRoche/kstreamsmatchers/actions/workflows/build-npm.yml/badge.svg)
 
 ![EO principles respected here](https://www.elegantobjects.org/badge.svg)
