@@ -48,7 +48,7 @@
     <mktmp.version>0.1.0</mktmp.version>
     <awaitility.version>4.3.0</awaitility.version>
     <testcontainers.version>2.0.5</testcontainers.version>
-    <maybeslow.version>0.0.4</maybeslow.version>
+    <maybeslow.version>0.1.0</maybeslow.version>
     <slf4j-api.version>2.0.18</slf4j-api.version>
     <jacoco.version>0.8.14</jacoco.version>
     <youshallnotpass.version>0.6.0</youshallnotpass.version>
