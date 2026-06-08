@@ -50,7 +50,7 @@
     <testcontainers.version>2.0.5</testcontainers.version>
     <maybeslow.version>0.1.0</maybeslow.version>
     <slf4j-api.version>2.0.18</slf4j-api.version>
-    <jacoco.version>0.8.14</jacoco.version>
+    <jacoco.version>0.8.15</jacoco.version>
     <youshallnotpass.version>0.6.0</youshallnotpass.version>
     <jtcop.version>1.4.3</jtcop.version>
     <pitest.version>1.25.3</pitest.version>
