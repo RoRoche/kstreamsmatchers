@@ -43,7 +43,7 @@
     <jackson-databind.version>3.2.0</jackson-databind.version>
     <eorules.version>0.0.1</eorules.version>
     <archunit.version>1.4.2</archunit.version>
-    <kafka-streams.version>4.3.0</kafka-streams.version>
+    <kafka-streams.version>4.3.1</kafka-streams.version>
     <cactoos.version>0.61.0</cactoos.version>
     <mktmp.version>0.2.0</mktmp.version>
     <awaitility.version>4.3.0</awaitility.version>
