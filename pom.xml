@@ -40,7 +40,7 @@
     <hamcrest.version>3.0</hamcrest.version>
     <eoconfig.version>0.0.4</eoconfig.version>
     <jackson-annotations.version>2.22</jackson-annotations.version>
-    <jackson-databind.version>3.2.0</jackson-databind.version>
+    <jackson-databind.version>3.2.1</jackson-databind.version>
     <eorules.version>0.0.1</eorules.version>
     <archunit.version>1.4.2</archunit.version>
     <kafka-streams.version>4.3.1</kafka-streams.version>
