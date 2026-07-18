@@ -15,6 +15,7 @@ Set of [Hamcrest](https://hamcrest.org/) custom matchers for testing Kafka Strea
 [![PDD status](https://www.0pdd.com/svg?name=RoRoche/kstreamsmatchers)](https://www.0pdd.com/p?name=RoRoche/kstreamsmatchers)
 
 [![codecov](https://codecov.io/gh/RoRoche/kstreamsmatchers/branch/main/graph/badge.svg)](https://codecov.io/gh/RoRoche/kstreamsmatchers)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FRoRoche%2Fkstreamsmatchers%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/RoRoche/kstreamsmatchers/main)
 
 [![Hits-of-Code](https://hitsofcode.com/github/RoRoche/kstreamsmatchers?branch=main)](https://hitsofcode.com/github/RoRoche/kstreamsmatchers/view?branch=main)
 
