@@ -108,6 +108,16 @@ It contains everything you need to know about:
 
 Thank you for helping improve `kstreamsmatchers` 🚀
 
+## ⭐ Star History
+
+<a href="https://www.star-history.com/?repos=RoRoche%2Fkstreamsmatchers&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=RoRoche/kstreamsmatchers&type=date&theme=dark&legend=top-left&sealed_token=8gJ2Nlp_2Z9PgdplXMgruswkc8UQVKNW5rn_DVUn7k-kfvFSg8LNPKRmsBLPj4kMfvKhdbIGcJ0oLXMq339AJu9Fc4bspx3NMpuNZFnRpCwToL15MH0t9YRlmB5skEX0_1Hcy_4mL0kzqjaHwGUw1elfsMG68_q_kqS7Wj49pGwo5_JyFYFR6-gFP8v-" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=RoRoche/kstreamsmatchers&type=date&legend=top-left&sealed_token=8gJ2Nlp_2Z9PgdplXMgruswkc8UQVKNW5rn_DVUn7k-kfvFSg8LNPKRmsBLPj4kMfvKhdbIGcJ0oLXMq339AJu9Fc4bspx3NMpuNZFnRpCwToL15MH0t9YRlmB5skEX0_1Hcy_4mL0kzqjaHwGUw1elfsMG68_q_kqS7Wj49pGwo5_JyFYFR6-gFP8v-" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=RoRoche/kstreamsmatchers&type=date&legend=top-left&sealed_token=8gJ2Nlp_2Z9PgdplXMgruswkc8UQVKNW5rn_DVUn7k-kfvFSg8LNPKRmsBLPj4kMfvKhdbIGcJ0oLXMq339AJu9Fc4bspx3NMpuNZFnRpCwToL15MH0t9YRlmB5skEX0_1Hcy_4mL0kzqjaHwGUw1elfsMG68_q_kqS7Wj49pGwo5_JyFYFR6-gFP8v-" />
+ </picture>
+</a>
+
 ## 📄 License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
