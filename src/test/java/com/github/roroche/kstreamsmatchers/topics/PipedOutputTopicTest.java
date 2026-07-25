@@ -33,6 +33,7 @@ import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.Produced;
+import org.cactoos.Scalar;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -41,7 +42,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link PipedOutputTopic}.
- * @since 0.0.1
+ * @since 0.0.2
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
 final class PipedOutputTopicTest {
@@ -93,8 +94,8 @@ final class PipedOutputTopicTest {
         MatcherAssert.assertThat(
             "The returned output topic should contain the piped record",
             new PipedOutputTopic<>(
-                this.input(),
-                this.output()
+                new PipedOutputTopicTest.Input(this.driver).value(),
+                new PipedOutputTopicTest.Output(this.driver).value()
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
             Matchers.contains(
                 new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
@@ -104,11 +105,13 @@ final class PipedOutputTopicTest {
 
     @Test
     void returnsTheSameOutputTopicInstanceItWasConstructedWith() {
-        final TestOutputTopic<String, String> output = this.output();
+        final TestOutputTopic<String, String> output = new PipedOutputTopicTest.Output(
+            this.driver
+        ).value();
         MatcherAssert.assertThat(
             "The output topic returned should be the same instance provided to the constructor",
             new PipedOutputTopic<>(
-                this.input(),
+                new PipedOutputTopicTest.Input(this.driver).value(),
                 output
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
             Matchers.sameInstance(output)
@@ -118,8 +121,8 @@ final class PipedOutputTopicTest {
     @Test
     void pipesSuccessiveCallsInOrder() {
         final PipedOutputTopic<String, String, String, String> piped = new PipedOutputTopic<>(
-            this.input(),
-            this.output()
+            new PipedOutputTopicTest.Input(this.driver).value(),
+            new PipedOutputTopicTest.Output(this.driver).value()
         );
         piped.apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1);
         MatcherAssert.assertThat(
@@ -140,8 +143,8 @@ final class PipedOutputTopicTest {
         MatcherAssert.assertThat(
             "When constructed from scalars, it should still pipe input correctly",
             new PipedOutputTopic<>(
-                this::input,
-                this::output
+                new Input(this.driver),
+                new Output(this.driver)
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
             Matchers.contains(
                 new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
@@ -151,25 +154,35 @@ final class PipedOutputTopicTest {
 
     /**
      * Creates the input topic used by the tests.
-     * @return The input topic
+     * @param driver The topology test driver used to create the input topic
      */
-    private TestInputTopic<String, String> input() {
-        return this.driver.createInputTopic(
-            "input-topic",
-            Serdes.String().serializer(),
-            Serdes.String().serializer()
-        );
+    private record Input(TopologyTestDriver driver)
+        implements Scalar<TestInputTopic<String, String>> {
+
+        @Override
+        public TestInputTopic<String, String> value() {
+            return this.driver.createInputTopic(
+                "input-topic",
+                Serdes.String().serializer(),
+                Serdes.String().serializer()
+            );
+        }
     }
 
     /**
      * Creates the output topic used by the tests.
-     * @return The output topic
+     * @param driver The topology test driver used to create the output topic
      */
-    private TestOutputTopic<String, String> output() {
-        return this.driver.createOutputTopic(
-            "output-topic",
-            Serdes.String().deserializer(),
-            Serdes.String().deserializer()
-        );
+    private record Output(TopologyTestDriver driver)
+        implements Scalar<TestOutputTopic<String, String>> {
+
+        @Override
+        public TestOutputTopic<String, String> value() {
+            return this.driver.createOutputTopic(
+                "output-topic",
+                Serdes.String().deserializer(),
+                Serdes.String().deserializer()
+            );
+        }
     }
 }

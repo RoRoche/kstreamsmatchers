@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link HasKey}.
- * @since 0.0.1
+ * @since 0.0.2
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
 final class HasKeyTest {

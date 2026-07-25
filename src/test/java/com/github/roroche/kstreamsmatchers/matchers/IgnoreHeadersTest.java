@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link IgnoreHeaders}.
- * @since 0.0.1
+ * @since 0.0.2
  */
 @SuppressWarnings({"allpublic", "allfinal"})
 final class IgnoreHeadersTest {

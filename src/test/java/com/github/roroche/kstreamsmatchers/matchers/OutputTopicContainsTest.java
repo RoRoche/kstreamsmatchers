@@ -33,6 +33,7 @@ import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.Produced;
+import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -49,7 +50,6 @@ import org.junit.jupiter.api.Test;
     "allpublic",
     "allfinal",
     "staticfree",
-    "PMD.TooManyMethods",
     "JTCOP.RuleProhibitStaticFields"
 })
 final class OutputTopicContainsTest {
@@ -98,11 +98,21 @@ final class OutputTopicContainsTest {
 
     @Test
     void matchesWhenTopicContainsExpectedRecordsInOrder() {
-        this.input().pipeInput(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1);
-        this.input().pipeInput(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2);
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_1,
+            OutputTopicContainsTest.VALUE_1
+        );
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_2,
+            OutputTopicContainsTest.VALUE_2
+        );
         MatcherAssert.assertThat(
             "When the output topic contains the expected records in order, the matcher should match",
-            this.output(),
+            new OutputTopicContainsTest.Output(this.driver).value(),
             new OutputTopicContains<>(
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1),
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2)
@@ -112,10 +122,15 @@ final class OutputTopicContainsTest {
 
     @Test
     void matchesFromListOfKeyValues() {
-        this.input().pipeInput(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1);
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_1,
+            OutputTopicContainsTest.VALUE_1
+        );
         MatcherAssert.assertThat(
             "When constructed from a List of KeyValue, the matcher should match the output topic",
-            this.output(),
+            new OutputTopicContainsTest.Output(this.driver).value(),
             new OutputTopicContains<>(
                 new ListOf<>(
                     new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
@@ -126,27 +141,42 @@ final class OutputTopicContainsTest {
 
     @Test
     void doesNotMatchWhenOrderDiffers() {
-        this.input().pipeInput(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1);
-        this.input().pipeInput(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2);
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_1,
+            OutputTopicContainsTest.VALUE_1
+        );
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_2,
+            OutputTopicContainsTest.VALUE_2
+        );
         MatcherAssert.assertThat(
             "When the records are out of the expected order, the matcher should not match",
             new OutputTopicContains<>(
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2),
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
-            ).matches(this.output()),
+            ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
             Matchers.is(false)
         );
     }
 
     @Test
     void doesNotMatchWhenARecordIsMissing() {
-        this.input().pipeInput(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1);
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_1,
+            OutputTopicContainsTest.VALUE_1
+        );
         MatcherAssert.assertThat(
             "When an expected record is missing, the matcher should not match",
             new OutputTopicContains<>(
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1),
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2)
-            ).matches(this.output()),
+            ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
             Matchers.is(false)
         );
     }
@@ -160,7 +190,7 @@ final class OutputTopicContainsTest {
                     OutputTopicContainsTest.KEY_1,
                     OutputTopicContainsTest.VALUE_1
                 )
-            ).matches(this.output()),
+            ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
             Matchers.is(false)
         );
     }
@@ -170,7 +200,7 @@ final class OutputTopicContainsTest {
         final StringDescription description = new StringDescription();
         new OutputTopicContains<>(
             new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
-        ).describeMismatch(this.output(), description);
+        ).describeMismatch(new OutputTopicContainsTest.Output(this.driver).value(), description);
         MatcherAssert.assertThat(
             "The mismatch description should explain why the topic did not match",
             description.toString(),
@@ -196,25 +226,35 @@ final class OutputTopicContainsTest {
 
     /**
      * Creates the input topic used by the tests.
-     * @return The input topic
+     * @param driver The topology test driver used to create the input topic
      */
-    private TestInputTopic<String, String> input() {
-        return this.driver.createInputTopic(
-            "input-topic",
-            Serdes.String().serializer(),
-            Serdes.String().serializer()
-        );
+    private record Input(TopologyTestDriver driver)
+        implements Scalar<TestInputTopic<String, String>> {
+
+        @Override
+        public TestInputTopic<String, String> value() {
+            return this.driver.createInputTopic(
+                "input-topic",
+                Serdes.String().serializer(),
+                Serdes.String().serializer()
+            );
+        }
     }
 
     /**
      * Creates the output topic used by the tests.
-     * @return The output topic
+     * @param driver The topology test driver used to create the output topic
      */
-    private TestOutputTopic<String, String> output() {
-        return this.driver.createOutputTopic(
-            "output-topic",
-            Serdes.String().deserializer(),
-            Serdes.String().deserializer()
-        );
+    private record Output(TopologyTestDriver driver)
+        implements Scalar<TestOutputTopic<String, String>> {
+
+        @Override
+        public TestOutputTopic<String, String> value() {
+            return this.driver.createOutputTopic(
+                "output-topic",
+                Serdes.String().deserializer(),
+                Serdes.String().deserializer()
+            );
+        }
     }
 }

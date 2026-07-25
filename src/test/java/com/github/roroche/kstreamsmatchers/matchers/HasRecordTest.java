@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link HasRecord}.
- * @since 0.0.1
+ * @since 0.0.2
  */
 @SuppressWarnings({
     "allpublic",

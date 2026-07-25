@@ -33,6 +33,7 @@ import org.apache.kafka.clients.consumer.MockConsumer;
 import org.apache.kafka.common.TopicPartition;
 import org.awaitility.core.ConditionTimeoutException;
 import org.awaitility.pollinterval.FixedPollInterval;
+import org.cactoos.Scalar;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -40,7 +41,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link PolledRecords}.
- * @since 0.0.1
+ * @since 0.0.2
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
 final class PolledRecordsTest {
@@ -52,7 +53,7 @@ final class PolledRecordsTest {
 
     @Test
     void containsThePolledRecordsInOrder() {
-        final MockConsumer<String, Long> consumer = PolledRecordsTest.consumer();
+        final MockConsumer<String, Long> consumer = new PolledRecordsTest.Consumer().value();
         consumer.addRecord(new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 0, "hello", 1L));
         consumer.addRecord(new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 1, "kafka", 2L));
         MatcherAssert.assertThat(
@@ -69,7 +70,7 @@ final class PolledRecordsTest {
 
     @Test
     void stopsAsSoonAsTheExpectedSizeIsReached() {
-        final MockConsumer<String, Long> consumer = PolledRecordsTest.consumer();
+        final MockConsumer<String, Long> consumer = new PolledRecordsTest.Consumer().value();
         consumer.addRecord(new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 0, "hello", 1L));
         consumer.addRecord(new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 1, "kafka", 2L));
         MatcherAssert.assertThat(
@@ -89,7 +90,7 @@ final class PolledRecordsTest {
         MatcherAssert.assertThat(
             "When no records are expected, the list should be empty",
             new PolledRecords<>(
-                PolledRecordsTest.consumer(),
+                new PolledRecordsTest.Consumer().value(),
                 Duration.ofSeconds(1),
                 new FixedPollInterval(Duration.ofMillis(50)),
                 0
@@ -100,7 +101,7 @@ final class PolledRecordsTest {
 
     @Test
     void throwsWhenExpectedSizeIsNeverReachedBeforeTimeout() {
-        final MockConsumer<String, Long> consumer = PolledRecordsTest.consumer();
+        final MockConsumer<String, Long> consumer = new PolledRecordsTest.Consumer().value();
         consumer.addRecord(new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 0, "hello", 1L));
         Assertions.assertThrows(
             ConditionTimeoutException.class,
@@ -116,15 +117,19 @@ final class PolledRecordsTest {
 
     /**
      * Builds a {@link MockConsumer} assigned to a single partition, ready to have records added.
-     * @return A ready-to-use mock consumer
+     * @since 0.0.2
      */
-    private static MockConsumer<String, Long> consumer() {
-        final MockConsumer<String, Long> consumer = new MockConsumer<>("earliest");
-        final TopicPartition partition = new TopicPartition(PolledRecordsTest.TOPIC, 0);
-        consumer.assign(Collections.singletonList(partition));
-        final Map<TopicPartition, Long> beginning = new HashMap<>();
-        beginning.put(partition, 0L);
-        consumer.updateBeginningOffsets(beginning);
-        return consumer;
+    private static final class Consumer implements Scalar<MockConsumer<String, Long>> {
+
+        @Override
+        public MockConsumer<String, Long> value() {
+            final MockConsumer<String, Long> consumer = new MockConsumer<>("earliest");
+            final TopicPartition partition = new TopicPartition(PolledRecordsTest.TOPIC, 0);
+            consumer.assign(Collections.singletonList(partition));
+            final Map<TopicPartition, Long> beginning = new HashMap<>();
+            beginning.put(partition, 0L);
+            consumer.updateBeginningOffsets(beginning);
+            return consumer;
+        }
     }
 }

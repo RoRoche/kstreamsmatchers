@@ -34,6 +34,7 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.streams.KeyValue;
 import org.awaitility.core.ConditionTimeoutException;
 import org.awaitility.pollinterval.FixedPollInterval;
+import org.cactoos.Scalar;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -43,7 +44,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link ConsumerPolls}.
- * @since 0.0.1
+ * @since 0.0.2
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
 final class ConsumerPollsTest {
@@ -65,7 +66,7 @@ final class ConsumerPollsTest {
 
     @Test
     void matchesFromKeyValueVarargs() {
-        final MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer();
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
         consumer.addRecord(
             new ConsumerRecord<>(
                 ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -90,7 +91,7 @@ final class ConsumerPollsTest {
 
     @Test
     void matchesFromMapEntryVarargs() {
-        final MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer();
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
         consumer.addRecord(
             new ConsumerRecord<>(
                 ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -109,7 +110,7 @@ final class ConsumerPollsTest {
 
     @Test
     void matchesFromListOfMatchers() {
-        final MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer();
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
         consumer.addRecord(
             new ConsumerRecord<>(
                 ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -128,7 +129,7 @@ final class ConsumerPollsTest {
 
     @Test
     void matchesUsingDefaultTimeoutAndInterval() {
-        final MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer();
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
         consumer.addRecord(
             new ConsumerRecord<>(
                 ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -143,7 +144,7 @@ final class ConsumerPollsTest {
 
     @Test
     void doesNotMatchWhenRecordOrderDiffers() {
-        final MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer();
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
         consumer.addRecord(
             new ConsumerRecord<>(
                 ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -168,7 +169,7 @@ final class ConsumerPollsTest {
 
     @Test
     void throwsWhenExpectedNumberOfRecordsIsNeverPolledBeforeTimeout() {
-        try (MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer()) {
+        try (MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value()) {
             consumer.addRecord(
                 new ConsumerRecord<>(
                     ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -189,7 +190,7 @@ final class ConsumerPollsTest {
 
     @Test
     void describesMismatchWhenPolledRecordsDoNotMatch() {
-        final MockConsumer<String, Long> consumer = ConsumerPollsTest.consumer();
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
         consumer.addRecord(
             new ConsumerRecord<>(
                 ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
@@ -227,15 +228,19 @@ final class ConsumerPollsTest {
 
     /**
      * Builds a {@link MockConsumer} assigned to a single partition, ready to have records added.
-     * @return A ready-to-use mock consumer
+     * @since 0.0.2
      */
-    private static MockConsumer<String, Long> consumer() {
-        final MockConsumer<String, Long> consumer = new MockConsumer<>("earliest");
-        final TopicPartition partition = new TopicPartition(ConsumerPollsTest.TOPIC, 0);
-        consumer.assign(Collections.singletonList(partition));
-        final Map<TopicPartition, Long> beginning = new HashMap<>();
-        beginning.put(partition, 0L);
-        consumer.updateBeginningOffsets(beginning);
-        return consumer;
+    private static final class Consumer implements Scalar<MockConsumer<String, Long>> {
+
+        @Override
+        public MockConsumer<String, Long> value() {
+            final MockConsumer<String, Long> consumer = new MockConsumer<>("earliest");
+            final TopicPartition partition = new TopicPartition(ConsumerPollsTest.TOPIC, 0);
+            consumer.assign(Collections.singletonList(partition));
+            final Map<TopicPartition, Long> beginning = new HashMap<>();
+            beginning.put(partition, 0L);
+            consumer.updateBeginningOffsets(beginning);
+            return consumer;
+        }
     }
 }
