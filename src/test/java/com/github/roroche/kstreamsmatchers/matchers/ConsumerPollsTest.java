@@ -216,6 +216,27 @@ final class ConsumerPollsTest {
     }
 
     @Test
+    void describesMismatchWithDetailsFromTheDelegateMatcher() {
+        final MockConsumer<String, Long> consumer = new ConsumerPollsTest.Consumer().value();
+        consumer.addRecord(
+            new ConsumerRecord<>(
+                ConsumerPollsTest.TOPIC, 0, 0, "other", 99L
+            )
+        );
+        final StringDescription description = new StringDescription();
+        new ConsumerPolls<>(
+            Duration.ofSeconds(2),
+            new FixedPollInterval(Duration.ofMillis(50)),
+            new KeyValue<>(ConsumerPollsTest.HELLO, 1L)
+        ).describeMismatch(consumer, description);
+        MatcherAssert.assertThat(
+            "Matcher contributes actual record details, not just the leading 'was' text",
+            description.toString(),
+            Matchers.not(Matchers.equalTo("was "))
+        );
+    }
+
+    @Test
     void describesExpectedRecords() {
         final StringDescription description = new StringDescription();
         new ConsumerPolls<>(new KeyValue<>(ConsumerPollsTest.HELLO, 1L)).describeTo(description);

@@ -209,6 +209,25 @@ final class OutputTopicContainsTest {
     }
 
     @Test
+    void describesMismatchWithDetailsFromTheDelegateMatcher() {
+        new OutputTopicContainsTest.Input(
+            this.driver
+        ).value().pipeInput(
+            OutputTopicContainsTest.KEY_2,
+            OutputTopicContainsTest.VALUE_2
+        );
+        final StringDescription description = new StringDescription();
+        new OutputTopicContains<>(
+            new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
+        ).describeMismatch(new OutputTopicContainsTest.Output(this.driver).value(), description);
+        MatcherAssert.assertThat(
+            "Matcher contributes actual record details, not just the leading 'was' text",
+            description.toString(),
+            Matchers.not(Matchers.equalTo("was "))
+        );
+    }
+
+    @Test
     void describesExpectedRecords() {
         final StringDescription description = new StringDescription();
         new OutputTopicContains<>(

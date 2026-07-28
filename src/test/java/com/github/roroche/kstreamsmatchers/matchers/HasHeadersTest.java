@@ -24,8 +24,11 @@
 package com.github.roroche.kstreamsmatchers.matchers;
 
 import com.github.roroche.kstreamsmatchers.KafkaRecord;
+import com.github.roroche.kstreamsmatchers.WithHeaders;
 import java.nio.charset.StandardCharsets;
 import org.apache.kafka.common.header.internals.RecordHeaders;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
@@ -57,6 +60,12 @@ final class HasHeadersTest {
      * Request for 12345.
      */
     private static final String STR_12345 = "12345";
+
+    /**
+     * Marker text used to prove that the delegate matcher's own
+     * description is actually appended, and not just synthesized text.
+     */
+    private static final String MARKER = "marker-value-matcher-description";
 
     @Test
     void matchesWhenHeaderValueIsEqual() {
@@ -141,6 +150,19 @@ final class HasHeadersTest {
         );
     }
 
+    @SuppressWarnings("nullfree")
+    @Test
+    void doesNotMatchWhenHeadersAreNull() {
+        MatcherAssert.assertThat(
+            "When the headers themselves are null, the matcher should not match",
+            new HasHeaders(
+                HasHeadersTest.REQUEST_ID,
+                HasHeadersTest.STR_12345.getBytes(StandardCharsets.UTF_8)
+            ).matches((WithHeaders) () -> null),
+            Matchers.is(false)
+        );
+    }
+
     @Test
     void describesExpectedKeyAndValue() {
         final StringDescription description = new StringDescription();
@@ -152,6 +174,20 @@ final class HasHeadersTest {
             "The description should mention the expected header key",
             description.toString(),
             Matchers.containsString(HasHeadersTest.REQUEST_ID)
+        );
+    }
+
+    @Test
+    void describesExpectedValueUsingDelegateMatcherDescription() {
+        final StringDescription description = new StringDescription();
+        new HasHeaders(
+            HasHeadersTest.REQUEST_ID,
+            new HasHeadersTest.MarkerMatcher()
+        ).describeTo(description);
+        MatcherAssert.assertThat(
+            "Description includes the delegate matcher's own description of the expected value",
+            description.toString(),
+            Matchers.containsString(HasHeadersTest.MARKER)
         );
     }
 
@@ -196,5 +232,24 @@ final class HasHeadersTest {
             description.toString(),
             Matchers.containsString(HasHeadersTest.STR_12345)
         );
+    }
+
+    /**
+     * A matcher that always matches and describes itself with {@link HasHeadersTest#MARKER},
+     * used solely to prove that {@link HasHeaders#describeTo(Description)}
+     * delegates to the expected matcher's own description.
+     * @since 0.0.2
+     */
+    private static final class MarkerMatcher extends BaseMatcher<byte[]> {
+
+        @Override
+        public boolean matches(final Object item) {
+            return true;
+        }
+
+        @Override
+        public void describeTo(final Description description) {
+            description.appendText(HasHeadersTest.MARKER);
+        }
     }
 }

@@ -53,9 +53,9 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  *     MatcherAssert.assertThat(
  *         consumer,
  *         new ConsumerPolls<>(
- *             new MapEntry<>("hello", 1L),
- *             new MapEntry<>("kafka", 2L),
- *             new MapEntry<>("streams", 1L)
+ *             new KeyValue<>("hello", 1L),
+ *             new KeyValue<>("kafka", 2L),
+ *             new KeyValue<>("streams", 1L)
  *         )
  *     );
  * }
@@ -152,22 +152,6 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
             timeout,
             interval,
             new ListOf<>(Arrays.stream(expected).map(HasRecord::new).toList())
-        );
-    }
-
-    /**
-     * Secondary ctor, for convenience.
-     * @param expected The expected records to be polled
-     */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (9 lines)
-     */
-    @SafeVarargs
-    public ConsumerPolls(final Map.Entry<K, V>... expected) {
-        this(
-            DurationFactory.of(1, TimeUnit.MINUTES),
-            new FixedPollInterval(DurationFactory.of(200, TimeUnit.MILLISECONDS)),
-            expected
         );
     }
 
