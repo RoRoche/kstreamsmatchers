@@ -32,7 +32,6 @@ import org.hamcrest.core.IsEqual;
 /**
  * A Hamcrest matcher that checks if a {@link WithValue} object
  * has a value matching a specific value or matcher.
- * @param <V> The type of the value
  *
  * <p><b>Example:</b></p>
  * <pre>{@code
@@ -53,6 +52,8 @@ import org.hamcrest.core.IsEqual;
  *     )
  * );
  * }</pre>
+ *
+ * @param <V> The type of the value
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (97 lines)

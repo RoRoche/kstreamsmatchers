@@ -29,8 +29,6 @@ import org.apache.kafka.streams.test.TestRecord;
 
 /**
  * A Kafka record with headers, key and value (following the Adapter pattern).
- * @param <K> The type of the key
- * @param <V> The type of the value
  *
  * <p><b>Example:</b></p>
  * <pre>{@code
@@ -46,6 +44,8 @@ import org.apache.kafka.streams.test.TestRecord;
  * String value = record.value();
  * }</pre>
  *
+ * @param <K> The type of the key
+ * @param <V> The type of the value
  * @since 0.0.1
  */
 public final class KafkaRecord<K, V> implements WithHeaders, WithKey<K>, WithValue<V> {

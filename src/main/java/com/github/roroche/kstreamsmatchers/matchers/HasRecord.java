@@ -37,8 +37,6 @@ import org.hamcrest.TypeSafeMatcher;
 
 /**
  * A Hamcrest matcher that checks if a {@link KafkaRecord} has specific headers, key and value.
- * @param <K> The type of the key
- * @param <V> The type of the value
  *
  * <p><b>Example:</b></p>
  * <pre>{@code
@@ -49,6 +47,9 @@ import org.hamcrest.TypeSafeMatcher;
  *     new HasRecord<>("user-1", "Hello World")
  * );
  * }</pre>
+ *
+ * @param <K> The type of the key
+ * @param <V> The type of the value
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (185 lines)

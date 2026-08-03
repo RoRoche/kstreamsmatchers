@@ -43,8 +43,6 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 
 /**
  * Matcher that checks if a consumer polls the expected records from the given topics.
- * @param <K> The type of the key
- * @param <V> The type of the value
  *
  * <p><b>Example:</b></p>
  * <pre>{@code
@@ -61,6 +59,8 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  * }
  * }</pre>
  *
+ * @param <K> The type of the key
+ * @param <V> The type of the value
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (192 lines)

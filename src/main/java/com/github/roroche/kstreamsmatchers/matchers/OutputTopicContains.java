@@ -35,15 +35,13 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 
 /**
  * A Hamcrest matcher that checks if a {@link TestOutputTopic} contains specific records in order.
- * @param <K> The type of the key
- * @param <V> The type of the value
  *
  * <p><b>Example:</b></p>
  * <pre>{@code
  * // Assert that an output topic contains expected word counts
  * TopologyTestDriver driver = new TopologyTestDriver(topology, config);
  * TestOutputTopic<String, Long> outputTopic = driver.createOutputTopic(...);
- *
+ *  *
  * MatcherAssert.assertThat(
  *     outputTopic,
  *     new OutputTopicContains<>(
@@ -53,6 +51,9 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
  *     )
  * );
  * }</pre>
+ *
+ * @param <K> The type of the key
+ * @param <V> The type of the value
  * @since 0.0.1
  */
 // @checkstyle ProtectedMethodInFinalClassCheck (130 lines)
