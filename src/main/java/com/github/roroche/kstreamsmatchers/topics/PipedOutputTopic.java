@@ -32,10 +32,6 @@ import org.cactoos.scalar.Unchecked;
 /**
  * A {@link BiFunc} that pipes input to a {@link TestInputTopic}
  * and returns a {@link TestOutputTopic}.
- * @param <X> The type of the key of the input topic
- * @param <Z> The type of the value of the input topic
- * @param <K> The type of the key of the output topic
- * @param <V> The type of the value of the output topic
  *
  * <p><b>Example:</b></p>
  * <pre>{@code
@@ -55,6 +51,11 @@ import org.cactoos.scalar.Unchecked;
  *     )
  * );
  * }</pre>
+ *
+ * @param <X> The type of the key of the input topic
+ * @param <Z> The type of the value of the input topic
+ * @param <K> The type of the key of the output topic
+ * @param <V> The type of the value of the output topic
  * @since 0.0.1
  */
 public final class PipedOutputTopic<X, Z, K, V> implements BiFunc<X, Z, TestOutputTopic<K, V>> {
