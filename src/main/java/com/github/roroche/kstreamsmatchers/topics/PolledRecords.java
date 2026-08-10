@@ -51,7 +51,6 @@ public final class PolledRecords<K, V> extends ListEnvelope<KafkaRecord<K, V>> {
      * @param size The expected number of records to be polled
      */
     /*
-     * @checkstyle ConstructorsCodeFreeCheck (27 lines)
      * @checkstyle ParameterNumberCheck (26 lines)
      */
     public PolledRecords(

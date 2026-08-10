@@ -75,9 +75,6 @@ public final class PipedOutputTopic<X, Z, K, V> implements BiFunc<X, Z, TestOutp
      * @param input The scalar for the input topic to which the key and value will be piped
      * @param output The scalar for the output topic that will be returned after piping the input
      */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (10 lines)
-     */
     public PipedOutputTopic(
         final Scalar<TestInputTopic<X, Z>> input,
         final Scalar<TestOutputTopic<K, V>> output

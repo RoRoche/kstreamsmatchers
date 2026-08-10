@@ -40,9 +40,6 @@ public final class ItConsumerConfiguration extends ConfigurationEnvelope {
     /**
      * Constructs an ItConsumerConfiguration with the given Kafka container.
      */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (20 lines)
-     */
     public ItConsumerConfiguration() {
         super(
             new MapConfiguration(

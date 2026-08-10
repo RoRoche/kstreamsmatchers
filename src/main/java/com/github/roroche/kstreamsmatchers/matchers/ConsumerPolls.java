@@ -93,9 +93,6 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param interval The interval between polls
      * @param expected The expected records to be polled
      */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (16 lines)
-     */
     public ConsumerPolls(
         final Duration timeout,
         final PollInterval interval,
@@ -117,9 +114,6 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param interval The interval between polls
      * @param expected The expected records to be polled
      */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (13 lines)
-     */
     @SafeVarargs
     public ConsumerPolls(
         final Duration timeout,
@@ -139,9 +133,6 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param interval The interval between polls
      * @param expected The expected records to be polled
      */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (13 lines)
-     */
     @SafeVarargs
     public ConsumerPolls(
         final Duration timeout,
@@ -159,9 +150,6 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * Secondary ctor, for convenience.
      * @param expected The expected records to be polled
      */
-    /*
-     * @checkstyle ConstructorsCodeFreeCheck (9 lines)
-     */
     @SafeVarargs
     public ConsumerPolls(final KeyValue<K, V>... expected) {
         this(
@@ -177,9 +165,6 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param size The expected number of records to be polled
-     */
-    /*
-     * @checkstyle ParameterNumberCheck (25 lines)
      */
     public ConsumerPolls(
         final Matcher<Iterable<? extends KafkaRecord<K, V>>> expected,
