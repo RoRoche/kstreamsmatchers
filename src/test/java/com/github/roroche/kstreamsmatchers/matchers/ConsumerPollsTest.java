@@ -37,8 +37,10 @@ import org.awaitility.pollinterval.FixedPollInterval;
 import org.cactoos.Scalar;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -163,7 +165,7 @@ final class ConsumerPollsTest {
                 new KeyValue<>(ConsumerPollsTest.KAFKA, 2L),
                 new KeyValue<>(ConsumerPollsTest.HELLO, 1L)
             ).matches(consumer),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -211,7 +213,7 @@ final class ConsumerPollsTest {
         MatcherAssert.assertThat(
             "The mismatch description should explain why the matcher failed",
             description.toString(),
-            Matchers.containsString("was")
+            new StringContains("was")
         );
     }
 
@@ -232,7 +234,7 @@ final class ConsumerPollsTest {
         MatcherAssert.assertThat(
             "Matcher contributes actual record details, not just the leading 'was' text",
             description.toString(),
-            Matchers.not(Matchers.equalTo("was "))
+            new IsNot<>(new IsEqual<>("was "))
         );
     }
 
@@ -243,7 +245,7 @@ final class ConsumerPollsTest {
         MatcherAssert.assertThat(
             "The description should mention the expected records",
             description.toString(),
-            Matchers.containsString(ConsumerPollsTest.HELLO)
+            new StringContains(ConsumerPollsTest.HELLO)
         );
     }
 

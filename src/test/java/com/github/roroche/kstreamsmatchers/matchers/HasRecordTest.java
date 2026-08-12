@@ -30,8 +30,10 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.test.TestRecord;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -101,7 +103,7 @@ final class HasRecordTest {
             new HasRecord<>(HasRecordTest.KEY_1, HasRecordTest.VALUE_1).matches(
                 new KafkaRecord<>(new RecordHeaders(), HasRecordTest.KEY_2, HasRecordTest.VALUE_1)
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -116,7 +118,7 @@ final class HasRecordTest {
                     HasRecordTest.VALUE_2
                 )
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -148,7 +150,7 @@ final class HasRecordTest {
                     HasRecordTest.VALUE_1
                 )
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -159,10 +161,10 @@ final class HasRecordTest {
         MatcherAssert.assertThat(
             "The description should mention the headers, key and value matchers",
             description.toString(),
-            Matchers.allOf(
-                Matchers.containsString("Ignored headers"),
-                Matchers.containsString(HasRecordTest.KEY_1),
-                Matchers.containsString(HasRecordTest.VALUE_1)
+            new AllOf<>(
+                new StringContains("Ignored headers"),
+                new StringContains(HasRecordTest.KEY_1),
+                new StringContains(HasRecordTest.VALUE_1)
             )
         );
     }
@@ -187,7 +189,7 @@ final class HasRecordTest {
             ).matches(
                 new TestRecord<>(HasRecordTest.KEY_2, HasRecordTest.VALUE_1)
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -200,7 +202,7 @@ final class HasRecordTest {
         MatcherAssert.assertThat(
             "The FromTestRecord matcher should describe the delegate matcher",
             description.toString(),
-            Matchers.containsString(HasRecordTest.KEY_1)
+            new StringContains(HasRecordTest.KEY_1)
         );
     }
 }

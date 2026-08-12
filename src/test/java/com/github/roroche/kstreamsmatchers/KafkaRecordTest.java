@@ -28,7 +28,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.apache.kafka.streams.test.TestRecord;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.IsNull;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -77,7 +81,7 @@ final class KafkaRecordTest {
                 KafkaRecordTest.KEY,
                 KafkaRecordTest.VALUE
             ).key(),
-            Matchers.equalTo(KafkaRecordTest.KEY)
+            new IsEqual<>(KafkaRecordTest.KEY)
         );
     }
 
@@ -90,7 +94,7 @@ final class KafkaRecordTest {
                 KafkaRecordTest.KEY,
                 KafkaRecordTest.VALUE
             ).value(),
-            Matchers.equalTo(KafkaRecordTest.VALUE)
+            new IsEqual<>(KafkaRecordTest.VALUE)
         );
     }
 
@@ -107,7 +111,7 @@ final class KafkaRecordTest {
                 .headers()
                 .lastHeader(KafkaRecordTest.HEADER_KEY)
                 .value(),
-            Matchers.equalTo(KafkaRecordTest.HEADER_VALUE.getBytes(StandardCharsets.UTF_8))
+            new IsEqual<>(KafkaRecordTest.HEADER_VALUE.getBytes(StandardCharsets.UTF_8))
         );
     }
 
@@ -117,7 +121,7 @@ final class KafkaRecordTest {
         MatcherAssert.assertThat(
             "When adapted from a TestRecord, the key should be taken from that test record",
             new KafkaRecord<>(new TestRecord<>(KafkaRecordTest.KEY, KafkaRecordTest.VALUE)).key(),
-            Matchers.equalTo(KafkaRecordTest.KEY)
+            new IsEqual<>(KafkaRecordTest.KEY)
         );
     }
 
@@ -129,7 +133,7 @@ final class KafkaRecordTest {
             new KafkaRecord<>(
                 new TestRecord<>(KafkaRecordTest.KEY, KafkaRecordTest.VALUE)
             ).value(),
-            Matchers.equalTo(KafkaRecordTest.VALUE)
+            new IsEqual<>(KafkaRecordTest.VALUE)
         );
     }
 
@@ -141,7 +145,7 @@ final class KafkaRecordTest {
             new KafkaRecord<>(
                 new TestRecord<>(KafkaRecordTest.KEY, KafkaRecordTest.VALUE)
             ).headers(),
-            Matchers.notNullValue()
+            new IsNot<>(new IsNull<>())
         );
     }
 
@@ -154,7 +158,7 @@ final class KafkaRecordTest {
                     KafkaRecordTest.TOPIC, 0, 0, KafkaRecordTest.KEY, KafkaRecordTest.VALUE
                 )
             ).key(),
-            Matchers.equalTo(KafkaRecordTest.KEY)
+            new IsEqual<>(KafkaRecordTest.KEY)
         );
     }
 
@@ -167,7 +171,7 @@ final class KafkaRecordTest {
                     KafkaRecordTest.TOPIC, 0, 0, KafkaRecordTest.KEY, KafkaRecordTest.VALUE
                 )
             ).value(),
-            Matchers.equalTo(KafkaRecordTest.VALUE)
+            new IsEqual<>(KafkaRecordTest.VALUE)
         );
     }
 
@@ -180,7 +184,7 @@ final class KafkaRecordTest {
                     KafkaRecordTest.TOPIC, 0, 0, KafkaRecordTest.KEY, KafkaRecordTest.VALUE
                 )
             ).headers(),
-            Matchers.notNullValue()
+            new IsNot<>(new IsNull<>())
         );
     }
 
@@ -194,9 +198,9 @@ final class KafkaRecordTest {
         MatcherAssert.assertThat(
             "The textual representation should mention the key and the value",
             new KafkaRecord<>(headers, KafkaRecordTest.KEY, KafkaRecordTest.VALUE).toString(),
-            Matchers.allOf(
-                Matchers.containsString(KafkaRecordTest.KEY),
-                Matchers.containsString(KafkaRecordTest.VALUE)
+            new AllOf<>(
+                new StringContains(KafkaRecordTest.KEY),
+                new StringContains(KafkaRecordTest.VALUE)
             )
         );
     }

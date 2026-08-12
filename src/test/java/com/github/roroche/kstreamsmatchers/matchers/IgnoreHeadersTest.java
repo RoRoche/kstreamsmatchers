@@ -27,8 +27,8 @@ import com.github.roroche.kstreamsmatchers.KafkaRecord;
 import java.nio.charset.StandardCharsets;
 import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -65,7 +65,7 @@ final class IgnoreHeadersTest {
         MatcherAssert.assertThat(
             "The description should mention that headers are ignored",
             description.toString(),
-            Matchers.equalTo("Ignored headers")
+            new IsEqual<>("Ignored headers")
         );
     }
 }

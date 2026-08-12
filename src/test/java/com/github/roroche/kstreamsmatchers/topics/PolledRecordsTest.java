@@ -34,8 +34,12 @@ import org.apache.kafka.common.TopicPartition;
 import org.awaitility.core.ConditionTimeoutException;
 import org.awaitility.pollinterval.FixedPollInterval;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsCollectionWithSize;
+import org.hamcrest.collection.IsEmptyCollection;
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -64,7 +68,12 @@ final class PolledRecordsTest {
                 new FixedPollInterval(Duration.ofMillis(50)),
                 2
             ),
-            Matchers.contains(new HasRecord<>("hello", 1L), new HasRecord<>("kafka", 2L))
+            new IsIterableContainingInOrder<>(
+                new ListOf<>(
+                    new HasRecord<>("hello", 1L),
+                    new HasRecord<>("kafka", 2L)
+                )
+            )
         );
     }
 
@@ -81,7 +90,7 @@ final class PolledRecordsTest {
                 new FixedPollInterval(Duration.ofMillis(50)),
                 1
             ),
-            Matchers.hasSize(Matchers.greaterThanOrEqualTo(1))
+            new IsCollectionWithSize<>(Matchers.greaterThanOrEqualTo(1))
         );
     }
 
@@ -95,7 +104,7 @@ final class PolledRecordsTest {
                 new FixedPollInterval(Duration.ofMillis(50)),
                 0
             ),
-            Matchers.empty()
+            new IsEmptyCollection<>()
         );
     }
 

@@ -34,8 +34,11 @@ import org.apache.kafka.streams.TopologyTestDriver;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.Produced;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.hamcrest.collection.IsIterableContainingInOrder;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsSame;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,8 +100,12 @@ final class PipedOutputTopicTest {
                 new PipedOutputTopicTest.Input(this.driver).value(),
                 new PipedOutputTopicTest.Output(this.driver).value()
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
-            Matchers.contains(
-                new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
+            new IsIterableContainingInOrder<>(
+                new ListOf<>(
+                    new IsEqual<>(
+                        new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
+                    )
+                )
             )
         );
     }
@@ -114,7 +121,7 @@ final class PipedOutputTopicTest {
                 new PipedOutputTopicTest.Input(this.driver).value(),
                 output
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
-            Matchers.sameInstance(output)
+            new IsSame<>(output)
         );
     }
 
@@ -131,9 +138,15 @@ final class PipedOutputTopicTest {
                 PipedOutputTopicTest.KEY_2,
                 PipedOutputTopicTest.VALUE_2
             ).readKeyValuesToList(),
-            Matchers.contains(
-                new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
-                new KeyValue<>(PipedOutputTopicTest.KEY_2, PipedOutputTopicTest.VALUE_2)
+            new IsIterableContainingInOrder<>(
+                new ListOf<>(
+                    new IsEqual<>(
+                        new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
+                    ),
+                    new IsEqual<>(
+                        new KeyValue<>(PipedOutputTopicTest.KEY_2, PipedOutputTopicTest.VALUE_2)
+                    )
+                )
             )
         );
     }
@@ -146,14 +159,19 @@ final class PipedOutputTopicTest {
                 new Input(this.driver),
                 new Output(this.driver)
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
-            Matchers.contains(
-                new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
+            new IsIterableContainingInOrder<>(
+                new ListOf<>(
+                    new IsEqual<>(
+                        new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
+                    )
+                )
             )
         );
     }
 
     /**
      * Creates the input topic used by the tests.
+     *
      * @param driver The topology test driver used to create the input topic
      */
     private record Input(TopologyTestDriver driver)
@@ -171,6 +189,7 @@ final class PipedOutputTopicTest {
 
     /**
      * Creates the output topic used by the tests.
+     *
      * @param driver The topology test driver used to create the output topic
      */
     private record Output(TopologyTestDriver driver)

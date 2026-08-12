@@ -36,8 +36,10 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -159,7 +161,7 @@ final class OutputTopicContainsTest {
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2),
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
             ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -177,7 +179,7 @@ final class OutputTopicContainsTest {
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1),
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2)
             ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -191,7 +193,7 @@ final class OutputTopicContainsTest {
                     OutputTopicContainsTest.VALUE_1
                 )
             ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -204,7 +206,7 @@ final class OutputTopicContainsTest {
         MatcherAssert.assertThat(
             "The mismatch description should explain why the topic did not match",
             description.toString(),
-            Matchers.containsString("was")
+            new StringContains("was")
         );
     }
 
@@ -223,7 +225,7 @@ final class OutputTopicContainsTest {
         MatcherAssert.assertThat(
             "Matcher contributes actual record details, not just the leading 'was' text",
             description.toString(),
-            Matchers.not(Matchers.equalTo("was "))
+            new IsNot<>(new IsEqual<>("was "))
         );
     }
 
@@ -239,7 +241,7 @@ final class OutputTopicContainsTest {
         MatcherAssert.assertThat(
             "The description should mention the expected records",
             description.toString(),
-            Matchers.containsString(OutputTopicContainsTest.KEY_1)
+            new StringContains(OutputTopicContainsTest.KEY_1)
         );
     }
 

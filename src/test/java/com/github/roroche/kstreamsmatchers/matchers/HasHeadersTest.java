@@ -30,8 +30,9 @@ import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -96,7 +97,7 @@ final class HasHeadersTest {
             new KafkaRecord<>(headers, HasHeadersTest.KEY, HasHeadersTest.VALUE),
             new HasHeaders(
                 HasHeadersTest.REQUEST_ID,
-                Matchers.equalTo(HasHeadersTest.STR_12345.getBytes(StandardCharsets.UTF_8))
+                new IsEqual<>(HasHeadersTest.STR_12345.getBytes(StandardCharsets.UTF_8))
             )
         );
     }
@@ -112,7 +113,7 @@ final class HasHeadersTest {
             "When the header value differs from the expected value, the matcher should not match",
             new HasHeaders(HasHeadersTest.REQUEST_ID, "other".getBytes(StandardCharsets.UTF_8))
                 .matches(new KafkaRecord<>(headers, HasHeadersTest.KEY, HasHeadersTest.VALUE)),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -130,7 +131,7 @@ final class HasHeadersTest {
                     HasHeadersTest.VALUE
                 )
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -146,7 +147,7 @@ final class HasHeadersTest {
             ).matches(
                 new KafkaRecord<>(headers, HasHeadersTest.KEY, HasHeadersTest.VALUE)
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -159,7 +160,7 @@ final class HasHeadersTest {
                 HasHeadersTest.REQUEST_ID,
                 HasHeadersTest.STR_12345.getBytes(StandardCharsets.UTF_8)
             ).matches((WithHeaders) () -> null),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -173,7 +174,7 @@ final class HasHeadersTest {
         MatcherAssert.assertThat(
             "The description should mention the expected header key",
             description.toString(),
-            Matchers.containsString(HasHeadersTest.REQUEST_ID)
+            new StringContains(HasHeadersTest.REQUEST_ID)
         );
     }
 
@@ -187,7 +188,7 @@ final class HasHeadersTest {
         MatcherAssert.assertThat(
             "Description includes the delegate matcher's own description of the expected value",
             description.toString(),
-            Matchers.containsString(HasHeadersTest.MARKER)
+            new StringContains(HasHeadersTest.MARKER)
         );
     }
 
@@ -208,7 +209,7 @@ final class HasHeadersTest {
         MatcherAssert.assertThat(
             "The mismatch description should mention the header was missing",
             description.toString(),
-            Matchers.containsString("header was missing")
+            new StringContains("header was missing")
         );
     }
 
@@ -230,7 +231,7 @@ final class HasHeadersTest {
         MatcherAssert.assertThat(
             "The mismatch description should mention the actual header value",
             description.toString(),
-            Matchers.containsString(HasHeadersTest.STR_12345)
+            new StringContains(HasHeadersTest.STR_12345)
         );
     }
 

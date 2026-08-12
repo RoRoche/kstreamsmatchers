@@ -26,8 +26,10 @@ package com.github.roroche.kstreamsmatchers.matchers;
 import com.github.roroche.kstreamsmatchers.KafkaRecord;
 import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringContains;
+import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -68,7 +70,7 @@ final class HasKeyTest {
             new HasKey<>(HasKeyTest.KEY_1).matches(
                 new KafkaRecord<>(new RecordHeaders(), HasKeyTest.KEY_2, HasKeyTest.VALUE_1)
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -77,7 +79,7 @@ final class HasKeyTest {
         MatcherAssert.assertThat(
             "When constructed with a delegate matcher, it should be used to match the key",
             new KafkaRecord<>(new RecordHeaders(), HasKeyTest.KEY_1, HasKeyTest.VALUE_1),
-            new HasKey<>(Matchers.startsWith("key-"))
+            new HasKey<>(new StringStartsWith("key-"))
         );
     }
 
@@ -85,10 +87,10 @@ final class HasKeyTest {
     void doesNotMatchWhenDelegateMatcherFails() {
         MatcherAssert.assertThat(
             "When the delegate matcher does not match, the matcher should not match",
-            new HasKey<>(Matchers.startsWith("id-")).matches(
+            new HasKey<>(new StringStartsWith("id-")).matches(
                 new KafkaRecord<>(new RecordHeaders(), "key-123", HasKeyTest.VALUE_1)
             ),
-            Matchers.is(false)
+            new IsEqual<>(false)
         );
     }
 
@@ -99,7 +101,7 @@ final class HasKeyTest {
         MatcherAssert.assertThat(
             "The description should mention the expected key",
             description.toString(),
-            Matchers.containsString(HasKeyTest.KEY_1)
+            new StringContains(HasKeyTest.KEY_1)
         );
     }
 }
