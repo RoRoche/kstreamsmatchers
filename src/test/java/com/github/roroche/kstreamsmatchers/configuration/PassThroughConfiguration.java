@@ -25,6 +25,7 @@ package com.github.roroche.kstreamsmatchers.configuration;
 
 import com.github.roroche.eoconfig.ConfigurationEnvelope;
 import com.github.roroche.eoconfig.MapConfiguration;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
 import org.cactoos.map.MapEntry;
 
@@ -41,7 +42,15 @@ public final class PassThroughConfiguration extends ConfigurationEnvelope {
         super(
             new MapConfiguration(
                 new MapEntry<>(StreamsConfig.APPLICATION_ID_CONFIG, "pass-through-test"),
-                new MapEntry<>(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234")
+                new MapEntry<>(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234"),
+                new MapEntry<>(
+                    StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG,
+                    Serdes.StringSerde.class.getName()
+                ),
+                new MapEntry<>(
+                    StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG,
+                    Serdes.StringSerde.class.getName()
+                )
             )
         );
     }
