@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link HasValue}.
- * @since 0.0.2
+ * @since 0.0.3
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
 final class HasValueTest {

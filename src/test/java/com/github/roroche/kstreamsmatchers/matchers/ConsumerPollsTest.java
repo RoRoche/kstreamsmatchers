@@ -46,7 +46,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link ConsumerPolls}.
- * @since 0.0.2
+ * @since 0.0.3
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
 final class ConsumerPollsTest {
@@ -251,7 +251,7 @@ final class ConsumerPollsTest {
 
     /**
      * Builds a {@link MockConsumer} assigned to a single partition, ready to have records added.
-     * @since 0.0.2
+     * @since 0.0.3
      */
     private static final class Consumer implements Scalar<MockConsumer<String, Long>> {
 
