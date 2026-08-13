@@ -42,7 +42,7 @@ public final class CloseTrackingTopology implements Scalar<Topology> {
             "processor",
             () -> new Processor<String, String, String, String>() {
                 @Override
-                public void process(final Record<String, String> record) {
+                public void process(final Record<String, String> rec) {
                     throw new UnsupportedOperationException("Not used by this test");
                 }
 
