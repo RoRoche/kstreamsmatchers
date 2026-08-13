@@ -23,8 +23,10 @@
  */
 package com.github.roroche.kstreamsmatchers.topics;
 
-import com.github.roroche.kstreamsmatchers.extensions.TopologyDriver;
-import com.github.roroche.kstreamsmatchers.extensions.TopologyTestDriverExtension;
+import com.github.roroche.kstreamsmatchers.configuration.PassThroughConfiguration;
+import com.github.roroche.kstreamsmatchers.extensions.TopologyTest;
+import com.github.roroche.kstreamsmatchers.extensions.WithTopologyTestDriver;
+import com.github.roroche.kstreamsmatchers.topology.PassThroughTopology;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.TestInputTopic;
@@ -37,14 +39,16 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test class for {@link PipedOutputTopic}.
- * @since 0.0.2
+ * @since 0.0.3
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
-@ExtendWith(TopologyTestDriverExtension.class)
+@TopologyTest(
+    configuration = PassThroughConfiguration.class,
+    topology = PassThroughTopology.class
+)
 final class PipedOutputTopicTest {
 
     /**
@@ -69,7 +73,7 @@ final class PipedOutputTopicTest {
 
     @Test
     void pipesInputAndReturnsOutputTopic(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         MatcherAssert.assertThat(
             "The returned output topic should contain the piped record",
@@ -89,7 +93,7 @@ final class PipedOutputTopicTest {
 
     @Test
     void returnsTheSameOutputTopicInstanceItWasConstructedWith(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         final TestOutputTopic<String, String> output = new PipedOutputTopicTest.Output(
             driver
@@ -106,7 +110,7 @@ final class PipedOutputTopicTest {
 
     @Test
     void pipesSuccessiveCallsInOrder(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         final PipedOutputTopic<String, String, String, String> piped = new PipedOutputTopic<>(
             new PipedOutputTopicTest.Input(driver).value(),
@@ -134,7 +138,7 @@ final class PipedOutputTopicTest {
 
     @Test
     void wrapsScalarsForInputAndOutputTopics(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         MatcherAssert.assertThat(
             "When constructed from scalars, it should still pipe input correctly",

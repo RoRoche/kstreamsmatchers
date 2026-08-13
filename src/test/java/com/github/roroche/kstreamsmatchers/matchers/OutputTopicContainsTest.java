@@ -23,8 +23,10 @@
  */
 package com.github.roroche.kstreamsmatchers.matchers;
 
-import com.github.roroche.kstreamsmatchers.extensions.TopologyDriver;
-import com.github.roroche.kstreamsmatchers.extensions.TopologyTestDriverExtension;
+import com.github.roroche.kstreamsmatchers.configuration.PassThroughConfiguration;
+import com.github.roroche.kstreamsmatchers.extensions.TopologyTest;
+import com.github.roroche.kstreamsmatchers.extensions.WithTopologyTestDriver;
+import com.github.roroche.kstreamsmatchers.topology.PassThroughTopology;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.TestInputTopic;
@@ -38,7 +40,6 @@ import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test class for {@link OutputTopicContains}.
@@ -50,7 +51,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
     "staticfree",
     "JTCOP.RuleProhibitStaticFields"
 })
-@ExtendWith(TopologyTestDriverExtension.class)
+@TopologyTest(
+    configuration = PassThroughConfiguration.class,
+    topology = PassThroughTopology.class
+)
 final class OutputTopicContainsTest {
 
     /**
@@ -75,7 +79,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void matchesWhenTopicContainsExpectedRecordsInOrder(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         new OutputTopicContainsTest.Input(
             driver
@@ -101,7 +105,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void matchesFromListOfKeyValues(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         new OutputTopicContainsTest.Input(
             driver
@@ -122,7 +126,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void doesNotMatchWhenOrderDiffers(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         new OutputTopicContainsTest.Input(
             driver
@@ -148,7 +152,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void doesNotMatchWhenARecordIsMissing(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         new OutputTopicContainsTest.Input(
             driver
@@ -168,7 +172,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void doesNotMatchWhenTopicIsEmpty(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         MatcherAssert.assertThat(
             "When the output topic is empty, the matcher should not match",
@@ -184,7 +188,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void describesMismatchWhenTopicDoesNotContainExpectedRecords(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         final StringDescription description = new StringDescription();
         new OutputTopicContains<>(
@@ -199,7 +203,7 @@ final class OutputTopicContainsTest {
 
     @Test
     void describesMismatchWithDetailsFromTheDelegateMatcher(
-        @TopologyDriver final TopologyTestDriver driver
+        @WithTopologyTestDriver final TopologyTestDriver driver
     ) {
         new OutputTopicContainsTest.Input(
             driver
@@ -236,6 +240,7 @@ final class OutputTopicContainsTest {
 
     /**
      * Creates the input topic used by the tests.
+     *
      * @param driver The topology test driver used to create the input topic
      */
     private record Input(TopologyTestDriver driver)
@@ -253,6 +258,7 @@ final class OutputTopicContainsTest {
 
     /**
      * Creates the output topic used by the tests.
+     *
      * @param driver The topology test driver used to create the output topic
      */
     private record Output(TopologyTestDriver driver)
