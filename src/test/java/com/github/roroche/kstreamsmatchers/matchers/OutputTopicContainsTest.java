@@ -23,16 +23,13 @@
  */
 package com.github.roroche.kstreamsmatchers.matchers;
 
-import java.util.Properties;
+import com.github.roroche.kstreamsmatchers.extensions.TopologyDriver;
+import com.github.roroche.kstreamsmatchers.extensions.TopologyTestDriverExtension;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.Produced;
 import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
@@ -40,9 +37,8 @@ import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test class for {@link OutputTopicContains}.
@@ -54,6 +50,7 @@ import org.junit.jupiter.api.Test;
     "staticfree",
     "JTCOP.RuleProhibitStaticFields"
 })
+@ExtendWith(TopologyTestDriverExtension.class)
 final class OutputTopicContainsTest {
 
     /**
@@ -76,45 +73,25 @@ final class OutputTopicContainsTest {
      */
     private static final String VALUE_2 = "value-2";
 
-    /**
-     * The topology test driver, wired with a pass-through topology, used for each test.
-     * @checkstyle ProhibitFieldsInTestClassesCheck (4 lines)
-     */
-    private TopologyTestDriver driver;
-
-    @BeforeEach
-    void setUp() {
-        final StreamsBuilder builder = new StreamsBuilder();
-        builder.stream("input-topic", Consumed.with(Serdes.String(), Serdes.String()))
-            .to("output-topic", Produced.with(Serdes.String(), Serdes.String()));
-        final Properties properties = new Properties();
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "output-topic-contains-test");
-        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        this.driver = new TopologyTestDriver(builder.build(), properties);
-    }
-
-    @AfterEach
-    void tearDown() {
-        this.driver.close();
-    }
-
     @Test
-    void matchesWhenTopicContainsExpectedRecordsInOrder() {
+    void matchesWhenTopicContainsExpectedRecordsInOrder(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_1,
             OutputTopicContainsTest.VALUE_1
         );
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_2,
             OutputTopicContainsTest.VALUE_2
         );
         MatcherAssert.assertThat(
             "When the output topic contains the expected records in order, the matcher should match",
-            new OutputTopicContainsTest.Output(this.driver).value(),
+            new OutputTopicContainsTest.Output(driver).value(),
             new OutputTopicContains<>(
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1),
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2)
@@ -123,16 +100,18 @@ final class OutputTopicContainsTest {
     }
 
     @Test
-    void matchesFromListOfKeyValues() {
+    void matchesFromListOfKeyValues(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_1,
             OutputTopicContainsTest.VALUE_1
         );
         MatcherAssert.assertThat(
             "When constructed from a List of KeyValue, the matcher should match the output topic",
-            new OutputTopicContainsTest.Output(this.driver).value(),
+            new OutputTopicContainsTest.Output(driver).value(),
             new OutputTopicContains<>(
                 new ListOf<>(
                     new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
@@ -142,15 +121,17 @@ final class OutputTopicContainsTest {
     }
 
     @Test
-    void doesNotMatchWhenOrderDiffers() {
+    void doesNotMatchWhenOrderDiffers(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_1,
             OutputTopicContainsTest.VALUE_1
         );
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_2,
             OutputTopicContainsTest.VALUE_2
@@ -160,15 +141,17 @@ final class OutputTopicContainsTest {
             new OutputTopicContains<>(
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2),
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
-            ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
+            ).matches(new OutputTopicContainsTest.Output(driver).value()),
             new IsEqual<>(false)
         );
     }
 
     @Test
-    void doesNotMatchWhenARecordIsMissing() {
+    void doesNotMatchWhenARecordIsMissing(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_1,
             OutputTopicContainsTest.VALUE_1
@@ -178,13 +161,15 @@ final class OutputTopicContainsTest {
             new OutputTopicContains<>(
                 new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1),
                 new KeyValue<>(OutputTopicContainsTest.KEY_2, OutputTopicContainsTest.VALUE_2)
-            ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
+            ).matches(new OutputTopicContainsTest.Output(driver).value()),
             new IsEqual<>(false)
         );
     }
 
     @Test
-    void doesNotMatchWhenTopicIsEmpty() {
+    void doesNotMatchWhenTopicIsEmpty(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         MatcherAssert.assertThat(
             "When the output topic is empty, the matcher should not match",
             new OutputTopicContains<>(
@@ -192,17 +177,19 @@ final class OutputTopicContainsTest {
                     OutputTopicContainsTest.KEY_1,
                     OutputTopicContainsTest.VALUE_1
                 )
-            ).matches(new OutputTopicContainsTest.Output(this.driver).value()),
+            ).matches(new OutputTopicContainsTest.Output(driver).value()),
             new IsEqual<>(false)
         );
     }
 
     @Test
-    void describesMismatchWhenTopicDoesNotContainExpectedRecords() {
+    void describesMismatchWhenTopicDoesNotContainExpectedRecords(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         final StringDescription description = new StringDescription();
         new OutputTopicContains<>(
             new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
-        ).describeMismatch(new OutputTopicContainsTest.Output(this.driver).value(), description);
+        ).describeMismatch(new OutputTopicContainsTest.Output(driver).value(), description);
         MatcherAssert.assertThat(
             "The mismatch description should explain why the topic did not match",
             description.toString(),
@@ -211,9 +198,11 @@ final class OutputTopicContainsTest {
     }
 
     @Test
-    void describesMismatchWithDetailsFromTheDelegateMatcher() {
+    void describesMismatchWithDetailsFromTheDelegateMatcher(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         new OutputTopicContainsTest.Input(
-            this.driver
+            driver
         ).value().pipeInput(
             OutputTopicContainsTest.KEY_2,
             OutputTopicContainsTest.VALUE_2
@@ -221,7 +210,7 @@ final class OutputTopicContainsTest {
         final StringDescription description = new StringDescription();
         new OutputTopicContains<>(
             new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
-        ).describeMismatch(new OutputTopicContainsTest.Output(this.driver).value(), description);
+        ).describeMismatch(new OutputTopicContainsTest.Output(driver).value(), description);
         MatcherAssert.assertThat(
             "Matcher contributes actual record details, not just the leading 'was' text",
             description.toString(),

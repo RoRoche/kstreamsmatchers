@@ -23,31 +23,28 @@
  */
 package com.github.roroche.kstreamsmatchers.topics;
 
-import java.util.Properties;
+import com.github.roroche.kstreamsmatchers.extensions.TopologyDriver;
+import com.github.roroche.kstreamsmatchers.extensions.TopologyTestDriverExtension;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.Produced;
 import org.cactoos.Scalar;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test class for {@link PipedOutputTopic}.
  * @since 0.0.2
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
+@ExtendWith(TopologyTestDriverExtension.class)
 final class PipedOutputTopicTest {
 
     /**
@@ -70,35 +67,15 @@ final class PipedOutputTopicTest {
      */
     private static final String VALUE_2 = "value-2";
 
-    /**
-     * The topology test driver, wired with a pass-through topology, used for each test.
-     * @checkstyle ProhibitFieldsInTestClassesCheck (4 lines)
-     */
-    private TopologyTestDriver driver;
-
-    @BeforeEach
-    void setUp() {
-        final StreamsBuilder builder = new StreamsBuilder();
-        builder.stream("input-topic", Consumed.with(Serdes.String(), Serdes.String()))
-            .to("output-topic", Produced.with(Serdes.String(), Serdes.String()));
-        final Properties properties = new Properties();
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "piped-output-topic-test");
-        properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        this.driver = new TopologyTestDriver(builder.build(), properties);
-    }
-
-    @AfterEach
-    void tearDown() {
-        this.driver.close();
-    }
-
     @Test
-    void pipesInputAndReturnsOutputTopic() {
+    void pipesInputAndReturnsOutputTopic(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         MatcherAssert.assertThat(
             "The returned output topic should contain the piped record",
             new PipedOutputTopic<>(
-                new PipedOutputTopicTest.Input(this.driver).value(),
-                new PipedOutputTopicTest.Output(this.driver).value()
+                new PipedOutputTopicTest.Input(driver).value(),
+                new PipedOutputTopicTest.Output(driver).value()
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
             new IsIterableContainingInOrder<>(
                 new ListOf<>(
@@ -111,14 +88,16 @@ final class PipedOutputTopicTest {
     }
 
     @Test
-    void returnsTheSameOutputTopicInstanceItWasConstructedWith() {
+    void returnsTheSameOutputTopicInstanceItWasConstructedWith(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         final TestOutputTopic<String, String> output = new PipedOutputTopicTest.Output(
-            this.driver
+            driver
         ).value();
         MatcherAssert.assertThat(
             "The output topic returned should be the same instance provided to the constructor",
             new PipedOutputTopic<>(
-                new PipedOutputTopicTest.Input(this.driver).value(),
+                new PipedOutputTopicTest.Input(driver).value(),
                 output
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
             new IsSame<>(output)
@@ -126,10 +105,12 @@ final class PipedOutputTopicTest {
     }
 
     @Test
-    void pipesSuccessiveCallsInOrder() {
+    void pipesSuccessiveCallsInOrder(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         final PipedOutputTopic<String, String, String, String> piped = new PipedOutputTopic<>(
-            new PipedOutputTopicTest.Input(this.driver).value(),
-            new PipedOutputTopicTest.Output(this.driver).value()
+            new PipedOutputTopicTest.Input(driver).value(),
+            new PipedOutputTopicTest.Output(driver).value()
         );
         piped.apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1);
         MatcherAssert.assertThat(
@@ -152,12 +133,14 @@ final class PipedOutputTopicTest {
     }
 
     @Test
-    void wrapsScalarsForInputAndOutputTopics() {
+    void wrapsScalarsForInputAndOutputTopics(
+        @TopologyDriver final TopologyTestDriver driver
+    ) {
         MatcherAssert.assertThat(
             "When constructed from scalars, it should still pipe input correctly",
             new PipedOutputTopic<>(
-                new Input(this.driver),
-                new Output(this.driver)
+                new Input(driver),
+                new Output(driver)
             ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
             new IsIterableContainingInOrder<>(
                 new ListOf<>(
