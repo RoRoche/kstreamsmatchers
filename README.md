@@ -97,20 +97,25 @@ MatcherAssert.assertThat(
 Provide the driver configuration as an [eoconfig](https://github.com/RoRoche/eoconfig) `Configuration`:
 
 ```java
-final class PassThroughConfiguration extends ConfigurationEnvelope {
+final class PassThroughConfiguration implements Configuration {
 
-    PassThroughConfiguration() {
-        super(
-            new MapConfiguration(
-                new MapEntry<>(StreamsConfig.APPLICATION_ID_CONFIG, "pass-through-test"),
-                new MapEntry<>(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234")
-            )
+    @Override
+    public Properties properties() {
+        final Properties props = new Properties();
+        props.setProperty(
+            StreamsConfig.APPLICATION_ID_CONFIG,
+            "pass-through-test"
         );
+        props.setProperty(
+            StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,
+            "dummy:1234"
+        );
+        return props;
     }
 }
 ```
 
-Provide the topology as a Cactoos `Scalar<Topology>`:
+Provide the topology as a [Cactoos](https://github.com/yegor256/cactoos) `Scalar<Topology>`:
 
 ```java
 final class PassThroughTopology implements Scalar<Topology> {
