@@ -45,6 +45,7 @@ Set of [Hamcrest](https://hamcrest.org/) custom matchers for testing Kafka Strea
 
 - A custom Hamcrest matcher to check the contents of records coming from TopologyTestDriver.
 - A custom Hamcrest matcher to check the contents of records consumed from a topic.
+- A JUnit 5 extension to create, inject, and close a configured `TopologyTestDriver` for each test.
 
 ## 📥 Installation
 
@@ -90,6 +91,72 @@ MatcherAssert.assertThat(
         )
 );
 ```
+
+3. To remove `TopologyTestDriver` setup and cleanup boilerplate, use the JUnit 5 `@TopologyTest` extension.
+
+Provide the driver configuration as an [eoconfig](https://github.com/RoRoche/eoconfig) `Configuration`:
+
+```java
+final class PassThroughConfiguration extends ConfigurationEnvelope {
+
+    PassThroughConfiguration() {
+        super(
+            new MapConfiguration(
+                new MapEntry<>(StreamsConfig.APPLICATION_ID_CONFIG, "pass-through-test"),
+                new MapEntry<>(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234")
+            )
+        );
+    }
+}
+```
+
+Provide the topology as a Cactoos `Scalar<Topology>`:
+
+```java
+final class PassThroughTopology implements Scalar<Topology> {
+
+    @Override
+    public Topology value() {
+        final StreamsBuilder builder = new StreamsBuilder();
+        builder.stream("input-topic").to("output-topic");
+        return builder.build();
+    }
+}
+```
+
+Then declare both once on the test class and inject the driver where needed:
+
+```java
+@TopologyTest(
+    configuration = PassThroughConfiguration.class,
+    topology = PassThroughTopology.class
+)
+final class PassThroughTopologyTest {
+
+    @Test
+    void forwardsRecords(
+        @WithTopologyTestDriver final TopologyTestDriver driver
+    ) {
+        final TestInputTopic<String, String> input = driver.createInputTopic(
+            "input-topic",
+            Serdes.String().serializer(),
+            Serdes.String().serializer()
+        );
+        final TestOutputTopic<String, String> output = driver.createOutputTopic(
+            "output-topic",
+            Serdes.String().deserializer(),
+            Serdes.String().deserializer()
+        );
+        input.pipeInput("key", "value");
+        MatcherAssert.assertThat(
+            output,
+            new OutputTopicContains<>(new KeyValue<>("key", "value"))
+        );
+    }
+}
+```
+
+The extension creates a fresh `TopologyTestDriver` before each test and closes it afterwards.
 
 ## 🤝 Contributing
 
