@@ -26,6 +26,7 @@ package com.github.roroche.kstreamsmatchers.topics;
 import com.github.roroche.kstreamsmatchers.configuration.PassThroughConfiguration;
 import com.github.roroche.kstreamsmatchers.extensions.TopologyTest;
 import com.github.roroche.kstreamsmatchers.extensions.WithTopologyTestDriver;
+import com.github.roroche.kstreamsmatchers.matchers.OutputTopicContains;
 import com.github.roroche.kstreamsmatchers.topology.PassThroughTopology;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KeyValue;
@@ -33,10 +34,7 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsSame;
 import org.junit.jupiter.api.Test;
 
@@ -80,13 +78,9 @@ final class PipedOutputTopicTest {
             new PipedOutputTopic<>(
                 new PipedOutputTopicTest.Input(driver).value(),
                 new PipedOutputTopicTest.Output(driver).value()
-            ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
-            new IsIterableContainingInOrder<>(
-                new ListOf<>(
-                    new IsEqual<>(
-                        new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
-                    )
-                )
+            ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
+            new OutputTopicContains<>(
+                new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
             )
         );
     }
@@ -122,16 +116,10 @@ final class PipedOutputTopicTest {
             piped.apply(
                 PipedOutputTopicTest.KEY_2,
                 PipedOutputTopicTest.VALUE_2
-            ).readKeyValuesToList(),
-            new IsIterableContainingInOrder<>(
-                new ListOf<>(
-                    new IsEqual<>(
-                        new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
-                    ),
-                    new IsEqual<>(
-                        new KeyValue<>(PipedOutputTopicTest.KEY_2, PipedOutputTopicTest.VALUE_2)
-                    )
-                )
+            ),
+            new OutputTopicContains<>(
+                new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
+                new KeyValue<>(PipedOutputTopicTest.KEY_2, PipedOutputTopicTest.VALUE_2)
             )
         );
     }
@@ -145,13 +133,9 @@ final class PipedOutputTopicTest {
             new PipedOutputTopic<>(
                 new Input(driver),
                 new Output(driver)
-            ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1).readKeyValuesToList(),
-            new IsIterableContainingInOrder<>(
-                new ListOf<>(
-                    new IsEqual<>(
-                        new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
-                    )
-                )
+            ).apply(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1),
+            new OutputTopicContains<>(
+                new KeyValue<>(PipedOutputTopicTest.KEY_1, PipedOutputTopicTest.VALUE_1)
             )
         );
     }

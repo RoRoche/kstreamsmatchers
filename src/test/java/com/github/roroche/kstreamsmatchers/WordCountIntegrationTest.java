@@ -34,7 +34,6 @@ import com.yegor256.Mktmp;
 import com.yegor256.MktmpResolver;
 import java.nio.file.Path;
 import java.time.Duration;
-import java.util.Collections;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -45,6 +44,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsConfig;
+import org.cactoos.list.ListOf;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
@@ -114,7 +114,7 @@ final class WordCountIntegrationTest {
                     ).properties()
                 )
             ) {
-                consumer.subscribe(Collections.singletonList("output-topic"));
+                consumer.subscribe(new ListOf<>("output-topic"));
                 MatcherAssert.assertThat(
                     "Output topic should contain the expected word counts in order",
                     consumer,

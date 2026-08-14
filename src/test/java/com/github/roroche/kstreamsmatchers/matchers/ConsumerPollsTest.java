@@ -24,7 +24,6 @@
 package com.github.roroche.kstreamsmatchers.matchers;
 
 import java.time.Duration;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,7 @@ import org.apache.kafka.streams.KeyValue;
 import org.awaitility.core.ConditionTimeoutException;
 import org.awaitility.pollinterval.FixedPollInterval;
 import org.cactoos.Scalar;
+import org.cactoos.list.ListOf;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
@@ -259,7 +259,7 @@ final class ConsumerPollsTest {
         public MockConsumer<String, Long> value() {
             final MockConsumer<String, Long> consumer = new MockConsumer<>("earliest");
             final TopicPartition partition = new TopicPartition(ConsumerPollsTest.TOPIC, 0);
-            consumer.assign(Collections.singletonList(partition));
+            consumer.assign(new ListOf<>(partition));
             final Map<TopicPartition, Long> beginning = new HashMap<>();
             beginning.put(partition, 0L);
             consumer.updateBeginningOffsets(beginning);

@@ -33,7 +33,6 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.cactoos.Scalar;
-import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
@@ -117,9 +116,7 @@ final class OutputTopicContainsTest {
             "When constructed from a List of KeyValue, the matcher should match the output topic",
             new OutputTopicContainsTest.Output(driver).value(),
             new OutputTopicContains<>(
-                new ListOf<>(
-                    new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
-                )
+                new KeyValue<>(OutputTopicContainsTest.KEY_1, OutputTopicContainsTest.VALUE_1)
             )
         );
     }

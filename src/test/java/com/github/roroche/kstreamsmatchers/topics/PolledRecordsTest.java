@@ -25,7 +25,6 @@ package com.github.roroche.kstreamsmatchers.topics;
 
 import com.github.roroche.kstreamsmatchers.matchers.HasRecord;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -134,7 +133,7 @@ final class PolledRecordsTest {
         public MockConsumer<String, Long> value() {
             final MockConsumer<String, Long> consumer = new MockConsumer<>("earliest");
             final TopicPartition partition = new TopicPartition(PolledRecordsTest.TOPIC, 0);
-            consumer.assign(Collections.singletonList(partition));
+            consumer.assign(new ListOf<>(partition));
             final Map<TopicPartition, Long> beginning = new HashMap<>();
             beginning.put(partition, 0L);
             consumer.updateBeginningOffsets(beginning);
