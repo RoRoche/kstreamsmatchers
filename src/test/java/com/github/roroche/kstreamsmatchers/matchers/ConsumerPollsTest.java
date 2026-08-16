@@ -38,6 +38,7 @@ import org.cactoos.list.ListOf;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;
@@ -213,7 +214,11 @@ final class ConsumerPollsTest {
         MatcherAssert.assertThat(
             "The mismatch description should explain why the matcher failed",
             description.toString(),
-            new StringContains("was")
+            new AllOf<>(
+                new StringContains("was item"),
+                new StringContains("key=other"),
+                new StringContains("value=99")
+            )
         );
     }
 

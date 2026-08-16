@@ -33,6 +33,7 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.cactoos.Scalar;
+import org.cactoos.text.FormattedText;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
@@ -194,7 +195,14 @@ final class OutputTopicContainsTest {
         MatcherAssert.assertThat(
             "The mismatch description should explain why the topic did not match",
             description.toString(),
-            new StringContains("was")
+            new StringContains(
+                new FormattedText(
+                    "was no item was Record matching: [%s], [Key matching \"%s\"], [Value matching \"%s\"]",
+                    "Ignored headers",
+                    OutputTopicContainsTest.KEY_1,
+                    OutputTopicContainsTest.VALUE_1
+                ).toString()
+            )
         );
     }
 
