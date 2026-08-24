@@ -76,7 +76,7 @@ public final class OutputTopicContains<K, V>
             IsIterableContainingInOrder.contains(
                 expected.stream().map(
                     (final KeyValue<K, V> kv) ->
-                        new HasRecord.FromTestRecord<>(new HasRecord<>(kv))
+                        new HasTestRecord<>(new HasRecord<>(kv))
                 ).toArray(Matcher[]::new)
             )
         );

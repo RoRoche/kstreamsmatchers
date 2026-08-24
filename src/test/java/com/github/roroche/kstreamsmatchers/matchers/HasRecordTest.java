@@ -174,7 +174,7 @@ final class HasRecordTest {
         MatcherAssert.assertThat(
             "The FromTestRecord matcher should delegate to a KafkaRecord matcher built from the TestRecord",
             new TestRecord<>(HasRecordTest.KEY_1, HasRecordTest.VALUE_1),
-            new HasRecord.FromTestRecord<>(
+            new HasTestRecord<>(
                 new HasRecord<>(HasRecordTest.KEY_1, HasRecordTest.VALUE_1)
             )
         );
@@ -184,7 +184,7 @@ final class HasRecordTest {
     void isFalseFromTestRecordDoesNotMatchWhenDelegateDoesNotMatch() {
         MatcherAssert.assertThat(
             "When the delegate matcher does not match, the FromTestRecord matcher should not match either",
-            new HasRecord.FromTestRecord<>(
+            new HasTestRecord<>(
                 new HasRecord<>(HasRecordTest.KEY_1, HasRecordTest.VALUE_1)
             ).matches(
                 new TestRecord<>(HasRecordTest.KEY_2, HasRecordTest.VALUE_1)
@@ -196,7 +196,7 @@ final class HasRecordTest {
     @Test
     void containsKeyFromTestRecordDescribesTheDelegateMatcher() {
         final StringDescription description = new StringDescription();
-        new HasRecord.FromTestRecord<>(
+        new HasTestRecord<>(
             new HasRecord<>(HasRecordTest.KEY_1, HasRecordTest.VALUE_1)
         ).describeTo(description);
         MatcherAssert.assertThat(

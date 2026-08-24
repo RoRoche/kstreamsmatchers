@@ -30,7 +30,6 @@ import com.github.roroche.kstreamsmatchers.WithValue;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.test.TestRecord;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -52,7 +51,6 @@ import org.hamcrest.TypeSafeMatcher;
  * @param <V> The type of the value
  * @since 0.0.1
  */
-// @checkstyle ProtectedMethodInFinalClassCheck (185 lines)
 @SuppressWarnings("allpublic")
 public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
 
@@ -128,6 +126,7 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
         description.appendText("]");
     }
 
+    // @checkstyle ProtectedMethodInFinalClassCheck (10 lines)
     @Override
     protected boolean matchesSafely(final KafkaRecord<K, V> actual) {
         return Stream.of(
@@ -137,41 +136,5 @@ public final class HasRecord<K, V> extends TypeSafeMatcher<KafkaRecord<K, V>> {
         ).allMatch(
             (final Matcher<?> matcher) -> matcher.matches(actual)
         );
-    }
-
-    /**
-     * A Hamcrest matcher that checks if a {@link TestRecord}
-     * has specific headers, key and value, by converting it to a {@link KafkaRecord}.
-     * @param <K> The type of the key
-     * @param <V> The type of the value
-     * @since 0.0.1
-     */
-    @SuppressWarnings("staticfree")
-    public static final class FromTestRecord<K, V> extends TypeSafeMatcher<TestRecord<K, V>> {
-
-        /**
-         * The delegate matcher for the KafkaRecord converted from the TestRecord.
-         */
-        private final Matcher<KafkaRecord<K, V>> delegate;
-
-        /**
-         * Constructs a FromTestRecord matcher with the given delegate matcher.
-         * @param delegate The delegate matcher for the KafkaRecord converted from the TestRecord
-         */
-        public FromTestRecord(final Matcher<KafkaRecord<K, V>> delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public void describeTo(final Description description) {
-            this.delegate.describeTo(description);
-        }
-
-        @Override
-        protected boolean matchesSafely(final TestRecord<K, V> trecord) {
-            return this.delegate.matches(
-                new KafkaRecord<>(trecord)
-            );
-        }
     }
 }
