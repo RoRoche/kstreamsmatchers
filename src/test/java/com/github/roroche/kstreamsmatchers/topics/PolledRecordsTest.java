@@ -110,13 +110,19 @@ final class PolledRecordsTest {
     @Test
     void throwsWhenExpectedSizeIsNeverReachedBeforeTimeout() {
         final MockConsumer<String, Long> consumer = new PolledRecordsTest.Consumer().value();
-        consumer.addRecord(new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 0, "hello", 1L));
+        consumer.addRecord(
+            new ConsumerRecord<>(PolledRecordsTest.TOPIC, 0, 0, "hello", 1L)
+        );
+        final Duration timeout = Duration.ofMillis(300);
+        final FixedPollInterval interval = new FixedPollInterval(
+            Duration.ofMillis(50)
+        );
         Assertions.assertThrows(
             ConditionTimeoutException.class,
             () -> new PolledRecords<>(
                 consumer,
-                Duration.ofMillis(300),
-                new FixedPollInterval(Duration.ofMillis(50)),
+                timeout,
+                interval,
                 2
             ),
             "The matcher should timeout when the expected number of records is never reached."

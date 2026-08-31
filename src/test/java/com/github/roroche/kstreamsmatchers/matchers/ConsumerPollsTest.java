@@ -178,14 +178,15 @@ final class ConsumerPollsTest {
                     ConsumerPollsTest.TOPIC, 0, 0, ConsumerPollsTest.HELLO, 1L
                 )
             );
+            final ConsumerPolls<String, Long> matcher = new ConsumerPolls<>(
+                Duration.ofMillis(300),
+                new FixedPollInterval(Duration.ofMillis(50)),
+                new KeyValue<>(ConsumerPollsTest.HELLO, 1L),
+                new KeyValue<>(ConsumerPollsTest.KAFKA, 2L)
+            );
             Assertions.assertThrows(
                 ConditionTimeoutException.class,
-                () -> new ConsumerPolls<>(
-                    Duration.ofMillis(300),
-                    new FixedPollInterval(Duration.ofMillis(50)),
-                    new KeyValue<>(ConsumerPollsTest.HELLO, 1L),
-                    new KeyValue<>(ConsumerPollsTest.KAFKA, 2L)
-                ).matches(consumer),
+                () -> matcher.matches(consumer),
                 "The matcher should timeout when the expected records are never polled."
             );
         }
