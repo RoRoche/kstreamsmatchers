@@ -33,6 +33,13 @@ import org.junit.jupiter.api.extension.ParameterResolver;
  */
 public final class TextParameterExtension implements ParameterResolver {
 
+    /**
+     * Default constructor.
+     */
+    public TextParameterExtension() {
+        // Intentionally empty.
+    }
+
     @Override
     public boolean supportsParameter(
         final ParameterContext parameter,

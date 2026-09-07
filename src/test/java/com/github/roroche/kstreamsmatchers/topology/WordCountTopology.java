@@ -43,12 +43,20 @@ import org.cactoos.Scalar;
  * A simple WordCount topology for testing purposes.
  * @since 0.0.1
  */
+@SuppressWarnings("staticfree")
 public final class WordCountTopology implements Scalar<Topology> {
 
     /**
      * A regex pattern to split words, matching any non-word character.
      */
-    private final Pattern regex = Pattern.compile("\\W+");
+    private static final Pattern REGEX = Pattern.compile("\\W+");
+
+    /**
+     * Default constructor.
+     */
+    public WordCountTopology() {
+        // Intentionally empty
+    }
 
     @Override
     public Topology value() {
@@ -60,7 +68,7 @@ public final class WordCountTopology implements Scalar<Topology> {
         final KTable<String, Long> counts = source.flatMapValues(
             (final String value) ->
                 Arrays.stream(
-                    this.regex.split(value.toLowerCase(Locale.ROOT))
+                    WordCountTopology.REGEX.split(value.toLowerCase(Locale.ROOT))
                 ).filter(
                     (final String word) -> !word.isEmpty()
                 ).toList()

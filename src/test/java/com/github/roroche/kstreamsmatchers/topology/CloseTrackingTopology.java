@@ -34,6 +34,13 @@ import org.cactoos.Scalar;
  */
 public final class CloseTrackingTopology implements Scalar<Topology> {
 
+    /**
+     * Default constructor.
+     */
+    public CloseTrackingTopology() {
+        // Intentionally empty
+    }
+
     @Override
     public Topology value() {
         final Topology topology = new Topology();

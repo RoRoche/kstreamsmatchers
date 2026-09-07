@@ -57,6 +57,13 @@ import org.hamcrest.TypeSafeMatcher;
 @SuppressWarnings("allpublic")
 public final class IgnoreHeaders extends TypeSafeMatcher<WithHeaders> {
 
+    /**
+     * Ctor.
+     */
+    public IgnoreHeaders() {
+        super();
+    }
+
     @Override
     public void describeTo(final Description description) {
         description.appendText("Ignored headers");

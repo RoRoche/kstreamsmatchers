@@ -64,11 +64,6 @@ final class HasRecordTest {
      */
     private static final String KEY_2 = "key-2";
 
-    /**
-     * Constant to define value 2.
-     */
-    private static final String VALUE_2 = "value-2";
-
     @Test
     void matchesWhenKeyAndValueAreEqualAndHeadersAreIgnored() {
         MatcherAssert.assertThat(
@@ -115,7 +110,7 @@ final class HasRecordTest {
                 new KafkaRecord<>(
                     new RecordHeaders(),
                     HasRecordTest.KEY_1,
-                    HasRecordTest.VALUE_2
+                    "value-2"
                 )
             ),
             new IsEqual<>(false)

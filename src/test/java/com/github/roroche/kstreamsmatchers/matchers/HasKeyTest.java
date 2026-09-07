@@ -49,11 +49,6 @@ final class HasKeyTest {
      */
     private static final String VALUE_1 = "value-1";
 
-    /**
-     * Constant to define key 2.
-     */
-    private static final String KEY_2 = "key-2";
-
     @Test
     void matchesWhenKeyIsEqual() {
         MatcherAssert.assertThat(
@@ -68,7 +63,7 @@ final class HasKeyTest {
         MatcherAssert.assertThat(
             "When the actual key differs from the expected key, the matcher should not match",
             new HasKey<>(HasKeyTest.KEY_1).matches(
-                new KafkaRecord<>(new RecordHeaders(), HasKeyTest.KEY_2, HasKeyTest.VALUE_1)
+                new KafkaRecord<>(new RecordHeaders(), "key-2", HasKeyTest.VALUE_1)
             ),
             new IsEqual<>(false)
         );

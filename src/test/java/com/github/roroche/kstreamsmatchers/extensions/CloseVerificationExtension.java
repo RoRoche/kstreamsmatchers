@@ -36,6 +36,13 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 public final class CloseVerificationExtension implements BeforeEachCallback,
     AfterEachCallback {
 
+    /**
+     * Default constructor.
+     */
+    public CloseVerificationExtension() {
+        // Intentionally empty.
+    }
+
     @Override
     public void beforeEach(final ExtensionContext context) {
         System.clearProperty("kstreamsmatchers.test.driver.closed");

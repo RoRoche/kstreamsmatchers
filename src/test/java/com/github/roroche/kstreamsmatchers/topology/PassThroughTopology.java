@@ -36,6 +36,13 @@ import org.cactoos.Scalar;
  */
 public final class PassThroughTopology implements Scalar<Topology> {
 
+    /**
+     * Default constructor.
+     */
+    public PassThroughTopology() {
+        // Intentionally empty
+    }
+
     @Override
     public Topology value() {
         final StreamsBuilder builder = new StreamsBuilder();

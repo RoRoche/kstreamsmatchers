@@ -43,6 +43,13 @@ public final class TopologyTestDriverExtension implements BeforeEachCallback,
      */
     private static final String DRIVER = "driver";
 
+    /**
+     * Default constructor.
+     */
+    public TopologyTestDriverExtension() {
+        // empty
+    }
+
     @Override
     public void beforeEach(final ExtensionContext context) throws Exception {
         final TopologyTest annotation = context.getRequiredTestClass().getAnnotation(
