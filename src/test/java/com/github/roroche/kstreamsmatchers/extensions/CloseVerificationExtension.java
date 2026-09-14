@@ -31,6 +31,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * Verifies that the topology test driver closes its topology after each test.
+ *
  * @since 0.0.4
  */
 public final class CloseVerificationExtension implements BeforeEachCallback,

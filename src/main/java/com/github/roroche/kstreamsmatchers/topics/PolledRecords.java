@@ -37,6 +37,7 @@ import org.cactoos.scalar.Unchecked;
 /**
  * A list of records polled from a consumer,
  * waiting until the expected number of records is polled or the maximum duration is reached.
+ *
  * @param <K> The type of the key
  * @param <V> The type of the value
  * @since 0.0.1
@@ -45,12 +46,11 @@ public final class PolledRecords<K, V> extends ListEnvelope<KafkaRecord<K, V>> {
 
     /**
      * Primary ctor.
+     *
      * @param consumer The consumer to poll from
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param size The expected number of records to be polled
-     */
-    /*
      * @checkstyle ParameterNumberCheck (26 lines)
      */
     public PolledRecords(

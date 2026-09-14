@@ -32,6 +32,7 @@ import org.cactoos.map.MapEntry;
 
 /**
  * A {@link com.github.roroche.eoconfig.Configuration} for Kafka Streams in integration tests.
+ *
  * @since 0.0.1
  */
 public final class ItStreamsConfiguration extends ConfigurationEnvelope {

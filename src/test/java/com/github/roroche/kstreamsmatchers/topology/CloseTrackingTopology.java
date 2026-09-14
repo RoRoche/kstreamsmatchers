@@ -30,6 +30,7 @@ import org.cactoos.Scalar;
 
 /**
  * Topology whose processor reports when it is closed.
+ *
  * @since 0.0.4
  */
 public final class CloseTrackingTopology implements Scalar<Topology> {

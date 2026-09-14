@@ -31,6 +31,7 @@ import org.cactoos.map.MapEntry;
 
 /**
  * Configuration for a pass-through topology test driver.
+ *
  * @since 0.0.3
  */
 public final class PassThroughConfiguration extends ConfigurationEnvelope {

@@ -33,6 +33,7 @@ import org.cactoos.map.MapEntry;
 
 /**
  * A {@link com.github.roroche.eoconfig.Configuration} for an integration test Kafka consumer.
+ *
  * @since 0.0.1
  */
 public final class ItConsumerConfiguration extends ConfigurationEnvelope {

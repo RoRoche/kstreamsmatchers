@@ -32,6 +32,7 @@ import org.hamcrest.TypeSafeMatcher;
 /**
  * A Hamcrest matcher that checks if a {@link TestRecord}
  * has specific headers, key and value, by converting it to a {@link KafkaRecord}.
+ *
  * @param <K> The type of the key
  * @param <V> The type of the value
  * @since 0.0.1
@@ -46,6 +47,7 @@ public final class HasTestRecord<K, V> extends TypeSafeMatcher<TestRecord<K, V>>
 
     /**
      * Constructs a FromTestRecord matcher with the given delegate matcher.
+     *
      * @param delegate The delegate matcher for the KafkaRecord converted from the TestRecord
      */
     public HasTestRecord(final Matcher<KafkaRecord<K, V>> delegate) {

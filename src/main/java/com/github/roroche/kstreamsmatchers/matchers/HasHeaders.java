@@ -77,6 +77,7 @@ public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
 
     /**
      * Constructs a HasHeaders matcher with the given key and expected value.
+     *
      * @param key The key of the header to check
      * @param expected The expected value of the header
      */
@@ -86,6 +87,7 @@ public final class HasHeaders extends TypeSafeMatcher<WithHeaders> {
 
     /**
      * Constructs a HasHeaders matcher with the given key and expected value matcher.
+     *
      * @param key The key of the header to check
      * @param expected The matcher for the value of the header
      */

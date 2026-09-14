@@ -67,6 +67,7 @@ public final class HasValue<V> extends TypeSafeMatcher<WithValue<V>> {
 
     /**
      * Constructs a HasValue matcher with the given expected value.
+     *
      * @param expected The expected value of the object
      */
     public HasValue(final V expected) {
@@ -75,6 +76,7 @@ public final class HasValue<V> extends TypeSafeMatcher<WithValue<V>> {
 
     /**
      * Constructs a HasValue matcher with the given expected value matcher.
+     *
      * @param expected The matcher for the value of the object
      */
     public HasValue(final Matcher<V> expected) {

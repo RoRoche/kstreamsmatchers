@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link KafkaRecord}.
+ *
  * @since 0.0.3
  */
 @SuppressWarnings({

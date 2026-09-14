@@ -41,6 +41,7 @@ import org.cactoos.Scalar;
 
 /**
  * A simple WordCount topology for testing purposes.
+ *
  * @since 0.0.1
  */
 @SuppressWarnings("staticfree")

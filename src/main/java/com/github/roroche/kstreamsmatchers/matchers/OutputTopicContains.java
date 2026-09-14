@@ -68,6 +68,7 @@ public final class OutputTopicContains<K, V>
 
     /**
      * Constructs an OutputTopicContains matcher with the given expected records.
+     *
      * @param expected The expected records in the output topic
      */
     @SuppressWarnings("unchecked")
@@ -84,6 +85,7 @@ public final class OutputTopicContains<K, V>
 
     /**
      * Constructs an OutputTopicContains matcher with the given expected records.
+     *
      * @param expected The expected records in the output topic
      */
     @SafeVarargs
@@ -93,6 +95,7 @@ public final class OutputTopicContains<K, V>
 
     /**
      * Constructs an OutputTopicContains matcher with the given expected records matcher.
+     *
      * @param expected The matcher for the records in the output topic
      */
     public OutputTopicContains(

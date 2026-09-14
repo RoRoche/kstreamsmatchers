@@ -67,6 +67,7 @@ public final class HasKey<K> extends TypeSafeMatcher<WithKey<K>> {
 
     /**
      * Constructs a HasKey matcher with the given expected key.
+     *
      * @param expected The expected key of the object
      */
     public HasKey(final K expected) {
@@ -75,6 +76,7 @@ public final class HasKey<K> extends TypeSafeMatcher<WithKey<K>> {
 
     /**
      * Constructs a HasKey matcher with the given expected key matcher.
+     *
      * @param expected The matcher for the key of the object
      */
     public HasKey(final Matcher<K> expected) {

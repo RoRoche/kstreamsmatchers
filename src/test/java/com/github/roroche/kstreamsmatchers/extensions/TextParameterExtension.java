@@ -29,6 +29,7 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 
 /**
  * Resolves text parameters unsupported by {@link TopologyTestDriverExtension}.
+ *
  * @since 0.0.4
  */
 public final class TextParameterExtension implements ParameterResolver {

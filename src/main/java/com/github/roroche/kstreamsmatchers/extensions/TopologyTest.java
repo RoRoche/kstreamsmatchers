@@ -34,6 +34,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Configures and enables a {@link TopologyTestDriverExtension}.
+ *
  * @since 0.0.3
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -43,12 +44,14 @@ public @interface TopologyTest {
 
     /**
      * Configuration used to create the topology test driver.
+     *
      * @return Configuration type.
      */
     Class<? extends Configuration> configuration();
 
     /**
      * Scalar used to create the topology under test.
+     *
      * @return Topology scalar type.
      */
     Class<? extends Scalar<Topology>> topology();

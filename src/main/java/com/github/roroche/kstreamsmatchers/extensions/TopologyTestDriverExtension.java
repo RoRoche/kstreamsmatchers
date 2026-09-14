@@ -32,6 +32,7 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 
 /**
  * Creates and injects a topology test driver configured by {@link TopologyTest}.
+ *
  * @since 0.0.3
  */
 @SuppressWarnings("staticfree")

@@ -54,6 +54,7 @@ import org.testcontainers.utility.DockerImageName;
 
 /**
  * Integration test class for the word count topology.
+ *
  * @since 0.0.1
  */
 @SuppressWarnings({"allpublic", "allfinal", "JTCOP.RuleEveryTestHasProductionClass"})

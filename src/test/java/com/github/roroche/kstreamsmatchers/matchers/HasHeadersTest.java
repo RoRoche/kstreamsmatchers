@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link HasHeaders}.
+ *
  * @since 0.0.3
  */
 @SuppressWarnings({"allpublic", "allfinal", "staticfree", "JTCOP.RuleProhibitStaticFields"})
@@ -239,6 +240,7 @@ final class HasHeadersTest {
      * A matcher that always matches and describes itself with {@link HasHeadersTest#MARKER},
      * used solely to prove that {@link HasHeaders#describeTo(Description)}
      * delegates to the expected matcher's own description.
+     *
      * @since 0.0.3
      */
     private static final class MarkerMatcher extends BaseMatcher<byte[]> {

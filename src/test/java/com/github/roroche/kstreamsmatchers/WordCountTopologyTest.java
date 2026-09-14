@@ -43,6 +43,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test class for the word count topology.
+ *
  * @since 0.0.1
  */
 @SuppressWarnings({"allpublic", "allfinal", "JTCOP.RuleEveryTestHasProductionClass"})

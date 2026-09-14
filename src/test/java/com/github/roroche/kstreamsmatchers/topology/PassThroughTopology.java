@@ -32,6 +32,7 @@ import org.cactoos.Scalar;
 
 /**
  * Pass-through topology for tests.
+ *
  * @since 0.0.3
  */
 public final class PassThroughTopology implements Scalar<Topology> {

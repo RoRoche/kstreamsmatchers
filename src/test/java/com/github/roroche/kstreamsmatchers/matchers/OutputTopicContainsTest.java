@@ -43,6 +43,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for {@link OutputTopicContains}.
+ *
  * @since 0.0.1
  */
 @SuppressWarnings({

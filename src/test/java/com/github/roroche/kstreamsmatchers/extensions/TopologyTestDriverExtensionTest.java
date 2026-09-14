@@ -32,6 +32,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link TopologyTestDriverExtension}.
+ *
  * @since 0.0.4
  */
 @SuppressWarnings({"allpublic", "allfinal"})

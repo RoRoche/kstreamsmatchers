@@ -24,6 +24,7 @@
 /**
  * Extension to ease the testing of Kafka Streams topologies
  * with {@link org.apache.kafka.streams.TopologyTestDriver}.
+ *
  * @since 0.0.3
  */
 package com.github.roroche.kstreamsmatchers.extensions;

@@ -89,6 +89,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
 
     /**
      * Secondary ctor, for convenience.
+     *
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param expected The expected records to be polled
@@ -110,6 +111,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
 
     /**
      * Secondary ctor, for convenience.
+     *
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param expected The expected records to be polled
@@ -129,6 +131,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
 
     /**
      * Secondary ctor, for convenience.
+     *
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
      * @param expected The expected records to be polled
@@ -148,6 +151,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
 
     /**
      * Secondary ctor, for convenience.
+     *
      * @param expected The expected records to be polled
      */
     @SafeVarargs
@@ -161,6 +165,7 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
 
     /**
      * Primary ctor.
+     *
      * @param expected The expected records to be polled
      * @param timeout The maximum duration to wait for the expected records to be polled
      * @param interval The interval between polls
