@@ -30,7 +30,6 @@ import java.util.List;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.awaitility.Awaitility;
-import org.awaitility.pollinterval.PollInterval;
 import org.cactoos.list.ListEnvelope;
 import org.cactoos.scalar.Unchecked;
 
@@ -48,29 +47,28 @@ public final class PolledRecords<K, V> extends ListEnvelope<KafkaRecord<K, V>> {
      * Primary ctor.
      *
      * @param consumer The consumer to poll from
-     * @param timeout The maximum duration to wait for the expected records to be polled
-     * @param interval The interval between polls
-     * @param size The expected number of records to be polled
+     * @param policy The polling policy
      */
-    // @checkstyle ParameterNumberCheck (26 lines)
     public PolledRecords(
         final Consumer<K, V> consumer,
-        final Duration timeout,
-        final PollInterval interval,
-        final int size
+        final PollingPolicy policy
     ) {
         super(
             new Unchecked<>(
                 () -> {
-                    final List<KafkaRecord<K, V>> records = new ArrayList<>(size);
-                    Awaitility.await().atMost(timeout).pollInterval(interval).until(
+                    final List<KafkaRecord<K, V>> records = new ArrayList<>(policy.size());
+                    Awaitility.await().atMost(
+                        policy.timeout()
+                    ).pollInterval(
+                        policy.interval()
+                    ).until(
                         () -> {
                             consumer.poll(Duration.ofMillis(500)).forEach(
                                 (final ConsumerRecord<K, V> crecord) -> records.add(
                                     new KafkaRecord<>(crecord)
                                 )
                             );
-                            return records.size() >= size;
+                            return records.size() >= policy.size();
                         }
                     );
                     return records;

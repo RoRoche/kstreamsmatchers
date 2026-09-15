@@ -64,9 +64,11 @@ final class PolledRecordsTest {
             "The polled records should be returned in the order they were polled",
             new PolledRecords<>(
                 consumer,
-                Duration.ofSeconds(2),
-                new FixedPollInterval(Duration.ofMillis(50)),
-                2
+                new SimplePollingPolicy(
+                    Duration.ofSeconds(2),
+                    new FixedPollInterval(Duration.ofMillis(50)),
+                    2
+                )
             ),
             new IsIterableContainingInOrder<>(
                 new ListOf<>(
@@ -86,9 +88,11 @@ final class PolledRecordsTest {
             "The list should contain at least the expected number of records",
             new PolledRecords<>(
                 consumer,
-                Duration.ofSeconds(2),
-                new FixedPollInterval(Duration.ofMillis(50)),
-                1
+                new SimplePollingPolicy(
+                    Duration.ofSeconds(2),
+                    new FixedPollInterval(Duration.ofMillis(50)),
+                    1
+                )
             ),
             new IsCollectionWithSize<>(Matchers.greaterThanOrEqualTo(1))
         );
@@ -100,9 +104,11 @@ final class PolledRecordsTest {
             "When no records are expected, the list should be empty",
             new PolledRecords<>(
                 new PolledRecordsTest.Consumer().value(),
-                Duration.ofSeconds(1),
-                new FixedPollInterval(Duration.ofMillis(50)),
-                0
+                new SimplePollingPolicy(
+                    Duration.ofSeconds(1),
+                    new FixedPollInterval(Duration.ofMillis(50)),
+                    0
+                )
             ),
             new IsEmptyCollection<>()
         );
@@ -122,9 +128,11 @@ final class PolledRecordsTest {
             ConditionTimeoutException.class,
             () -> new PolledRecords<>(
                 consumer,
-                timeout,
-                interval,
-                2
+                new SimplePollingPolicy(
+                    timeout,
+                    interval,
+                    2
+                )
             ),
             "The matcher should timeout when the expected number of records is never reached."
         );

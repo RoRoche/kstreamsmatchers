@@ -25,6 +25,7 @@ package com.github.roroche.kstreamsmatchers.matchers;
 
 import com.github.roroche.kstreamsmatchers.KafkaRecord;
 import com.github.roroche.kstreamsmatchers.topics.PolledRecords;
+import com.github.roroche.kstreamsmatchers.topics.SimplePollingPolicy;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -193,9 +194,11 @@ public final class ConsumerPolls<K, V> extends TypeSafeDiagnosingMatcher<Consume
         final List<KafkaRecord<K, V>> records =
             new PolledRecords<>(
                 consumer,
-                this.timeout,
-                this.interval,
-                this.size
+                new SimplePollingPolicy(
+                    this.timeout,
+                    this.interval,
+                    this.size
+                )
             );
         boolean matches = true;
         if (!this.expected.matches(records)) {
