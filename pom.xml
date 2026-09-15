@@ -129,6 +129,7 @@
       <groupId>com.yegor256</groupId>
       <artifactId>mktmp</artifactId>
       <version>${mktmp.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.awaitility</groupId>
