@@ -43,14 +43,14 @@ jobs:
       - name: Build with Maven
         run: mvn -B -ntp clean verify
 
-      - name: Verify JaCoCo XML reports
+      - name: Verify JaCoCo XML report
         shell: bash
         run: |
           test -s target/site/jacoco/jacoco.xml
-          echo "JaCoCo reports generated for commit ${GITHUB_SHA}"
+          echo "JaCoCo report generated for commit ${GITHUB_SHA}"
           echo "GitHub ref: ${GITHUB_REF}"
           echo "GitHub ref name: ${GITHUB_REF_NAME}"
-          ls -lh target/site/*/jacoco/jacoco.xml
+          ls -lh target/site/jacoco/jacoco.xml
 
       - name: Upload JaCoCo HTML report as artifact
         uses: actions/upload-artifact@v7
