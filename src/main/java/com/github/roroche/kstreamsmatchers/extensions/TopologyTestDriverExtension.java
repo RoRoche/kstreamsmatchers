@@ -23,6 +23,7 @@
  */
 package com.github.roroche.kstreamsmatchers.extensions;
 
+import java.util.Optional;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -69,9 +70,11 @@ public final class TopologyTestDriverExtension implements BeforeEachCallback,
 
     @Override
     public void afterEach(final ExtensionContext context) {
-        context.getStore(
-            ExtensionContext.Namespace.create(TopologyTestDriverExtension.class)
-        ).remove(TopologyTestDriverExtension.DRIVER, TopologyTestDriver.class).close();
+        Optional.ofNullable(
+            context.getStore(
+                ExtensionContext.Namespace.create(TopologyTestDriverExtension.class)
+            ).remove(TopologyTestDriverExtension.DRIVER, TopologyTestDriver.class)
+        ).ifPresent(TopologyTestDriver::close);
     }
 
     @Override
