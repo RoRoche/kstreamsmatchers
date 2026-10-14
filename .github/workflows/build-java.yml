@@ -46,8 +46,7 @@ jobs:
       - name: Verify JaCoCo XML reports
         shell: bash
         run: |
-          test -s target/site/eorules-annotations/jacoco/jacoco.xml
-          test -s target/site/eorules/jacoco/jacoco.xml
+          test -s target/site/jacoco/jacoco.xml
           echo "JaCoCo reports generated for commit ${GITHUB_SHA}"
           echo "GitHub ref: ${GITHUB_REF}"
           echo "GitHub ref name: ${GITHUB_REF_NAME}"
