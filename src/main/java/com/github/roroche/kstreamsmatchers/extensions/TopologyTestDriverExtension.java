@@ -55,8 +55,10 @@ public final class TopologyTestDriverExtension implements BeforeEachCallback,
 
     @Override
     public void beforeEach(final ExtensionContext context) throws Exception {
-        final TopologyTest annotation = context.getRequiredTestClass().getAnnotation(
-            TopologyTest.class
+        final TopologyTest annotation = Optional.ofNullable(
+            context.getRequiredTestClass().getAnnotation(TopologyTest.class)
+        ).orElseThrow(
+            () -> new IllegalStateException("Test class must be annotated with @TopologyTest")
         );
         context.getStore(
             ExtensionContext.Namespace.create(TopologyTestDriverExtension.class)
