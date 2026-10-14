@@ -29,6 +29,7 @@ import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 /**
@@ -91,8 +92,12 @@ public final class TopologyTestDriverExtension implements BeforeEachCallback,
         final ParameterContext parameter,
         final ExtensionContext context
     ) {
-        return context.getStore(
-            ExtensionContext.Namespace.create(TopologyTestDriverExtension.class)
-        ).get(TopologyTestDriverExtension.DRIVER, TopologyTestDriver.class);
+        return Optional.ofNullable(
+            context.getStore(
+                ExtensionContext.Namespace.create(TopologyTestDriverExtension.class)
+            ).get(TopologyTestDriverExtension.DRIVER, TopologyTestDriver.class)
+        ).orElseThrow(
+            () -> new ParameterResolutionException("TopologyTestDriver has not been initialized")
+        );
     }
 }

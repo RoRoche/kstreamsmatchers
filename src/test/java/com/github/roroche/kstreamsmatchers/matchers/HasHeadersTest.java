@@ -152,7 +152,8 @@ final class HasHeadersTest {
         );
     }
 
-    @SuppressWarnings("nullfree")
+    // Deliberately violate the non-null contract to verify defensive matching.
+    @SuppressWarnings({"nullfree", "NullAway"})
     @Test
     void doesNotMatchWhenHeadersAreNull() {
         MatcherAssert.assertThat(
