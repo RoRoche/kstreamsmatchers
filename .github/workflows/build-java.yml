@@ -55,15 +55,14 @@ jobs:
       - name: Upload JaCoCo HTML report as artifact
         uses: actions/upload-artifact@v7
         with:
-          name: jacoco-html-reports
-          path: target/site/*/jacoco
-          if-no-files-found: error
+          name: jacoco-html-report
+          path: target/site/jacoco
 
       - name: Upload coverage to Codecov
         if: ${{ !github.event.repository.private }}
         uses: codecov/codecov-action@v7
         with:
-          files: target/site/eorules/jacoco/jacoco.xml
+          files: target/site/jacoco/jacoco.xml
           override_commit: ${{ github.sha }}
           override_branch: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
           use_oidc: true
@@ -78,15 +77,14 @@ jobs:
         run: mvn jtcop:check
 
       - name: Run PIT mutation testing
-        if: github.actor != 'dependabot[bot]'
+        if: ${{ !github.event.repository.private && github.actor != 'dependabot[bot]' }}
         run: mvn -Pci test-compile org.pitest:pitest-maven:mutationCoverage
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_TOKEN }}
 
       - name: Upload PIT HTML report as artifact
-        if: github.actor != 'dependabot[bot]'
+        if: ${{ !github.event.repository.private && github.actor != 'dependabot[bot]' }}
         uses: actions/upload-artifact@v7
         with:
           name: pit-html-report
-          path: eorules-rules/target/pit-reports
-          if-no-files-found: error
+          path: target/pit-reports
