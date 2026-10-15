@@ -25,6 +25,7 @@ package com.github.roroche.kstreamsmatchers.extensions;
 
 import java.util.Optional;
 import org.apache.kafka.streams.TopologyTestDriver;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -83,7 +84,7 @@ public final class TopologyTestDriverExtension implements BeforeEachCallback,
     @Override
     public boolean supportsParameter(
         final ParameterContext parameter,
-        final ExtensionContext context
+        final @NonNull ExtensionContext context
     ) {
         return parameter.isAnnotated(WithTopologyTestDriver.class)
             && parameter.getParameter().getType().equals(TopologyTestDriver.class);
@@ -91,8 +92,8 @@ public final class TopologyTestDriverExtension implements BeforeEachCallback,
 
     @Override
     public Object resolveParameter(
-        final ParameterContext parameter,
-        final ExtensionContext context
+        final @NonNull ParameterContext parameter,
+        final @NonNull ExtensionContext context
     ) {
         return Optional.ofNullable(
             context.getStore(
