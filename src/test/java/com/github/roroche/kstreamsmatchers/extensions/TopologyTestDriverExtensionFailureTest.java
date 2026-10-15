@@ -43,11 +43,12 @@ final class TopologyTestDriverExtensionFailureTest {
 
     @Test
     void rejectsMissingAnnotation(final ExtensionContext context) {
+        final TopologyTestDriverExtension extension = new TopologyTestDriverExtension();
         MatcherAssert.assertThat(
             "A test class without @TopologyTest must be rejected with an explanation",
             Assertions.assertThrows(
                 IllegalStateException.class,
-                () -> new TopologyTestDriverExtension().beforeEach(context)
+                () -> extension.beforeEach(context)
             ).getMessage(),
             new IsEqual<>("Test class must be annotated with @TopologyTest")
         );
@@ -58,11 +59,12 @@ final class TopologyTestDriverExtensionFailureTest {
         final ParameterContext parameter,
         final ExtensionContext context
     ) {
+        final TopologyTestDriverExtension extension = new TopologyTestDriverExtension();
         MatcherAssert.assertThat(
             "Resolving a driver before initialization must explain the missing state",
             Assertions.assertThrows(
                 ParameterResolutionException.class,
-                () -> new TopologyTestDriverExtension().resolveParameter(parameter, context)
+                () -> extension.resolveParameter(parameter, context)
             ).getMessage(),
             new IsEqual<>("TopologyTestDriver has not been initialized")
         );
