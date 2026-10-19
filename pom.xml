@@ -46,7 +46,7 @@
     <jackson-databind.version>3.2.3</jackson-databind.version>
     <eorules.version>0.0.2</eorules.version>
     <archunit.version>1.5.1</archunit.version>
-    <kafka-streams.version>4.3.1</kafka-streams.version>
+    <kafka-streams.version>4.4.0</kafka-streams.version>
     <spotbugs-maven-plugin.version>4.10.5.0</spotbugs-maven-plugin.version>
     <cactoos.version>0.63.0</cactoos.version>
     <mktmp.version>0.2.0</mktmp.version>
